@@ -2,6 +2,8 @@
 // Lung Razvan <long1eu>
 // on 10/04/2020
 
+import 'dart:math';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:instagram_clone/src/models/app_user.dart';
@@ -62,5 +64,32 @@ class AuthApi {
 
     await firestore.document('users/${user.uid}').setData(user.json);
     return user;
+  }
+
+  Future<String> reserveUsername({@required String email, @required String displayName}) async {
+    String username = email.split('@')[0];
+
+    QuerySnapshot snapshot = await firestore
+        .collection('users') //
+        .where('username', isEqualTo: username)
+        .getDocuments();
+
+    if (snapshot.documents.isEmpty) {
+      return username;
+    }
+
+    username = displayName.split(' ').join('.').toLowerCase();
+    snapshot = await firestore
+        .collection('users') //
+        .where('username', isEqualTo: username)
+        .getDocuments();
+
+    if (snapshot.documents.isEmpty) {
+      return username;
+    }
+
+    final Random random = Random();
+    username = email.split('@')[0] + '${random.nextInt(1 << 32)}';
+    return username;
   }
 }

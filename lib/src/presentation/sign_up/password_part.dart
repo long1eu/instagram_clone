@@ -10,6 +10,7 @@ import 'package:instagram_clone/src/actions/update_registration_info.dart';
 import 'package:instagram_clone/src/containers/registration_info_container.dart';
 import 'package:instagram_clone/src/models/app_state.dart';
 import 'package:instagram_clone/src/models/registration_info.dart';
+import 'package:password_strength/password_strength.dart';
 
 class PasswordPart extends StatefulWidget {
   const PasswordPart({Key key, @required this.onNext}) : super(key: key);
@@ -55,7 +56,7 @@ class _PasswordPartState extends State<PasswordPart> {
               const SizedBox(height: 16.0),
               Container(
                 padding: const EdgeInsetsDirectional.only(start: 16.0),
-                child: TextField(
+                child: TextFormField(
                   controller: password,
                   keyboardType: TextInputType.visiblePassword,
                   obscureText: true,
@@ -66,6 +67,14 @@ class _PasswordPartState extends State<PasswordPart> {
                   onChanged: (String value) {
                     StoreProvider.of<AppState>(context)
                         .dispatch(UpdateRegistrationInfo(info.copyWith(password: value)));
+                  },
+                  validator: (String value) {
+                    print(estimatePasswordStrength(value));
+                    if (estimatePasswordStrength(value) < 0.1) {
+                      return 'Can you please try something more secure.';
+                    }
+
+                    return null;
                   },
                 ),
               ),
@@ -91,8 +100,10 @@ class _PasswordPartState extends State<PasswordPart> {
                   colorBrightness: Brightness.light,
                   child: const Text('Next'),
                   onPressed: () {
-                    FocusScope.of(context).requestFocus(FocusNode());
-                    widget.onNext();
+                    if (Form.of(context).validate()) {
+                      FocusScope.of(context).requestFocus(FocusNode());
+                      widget.onNext();
+                    }
                   },
                 ),
               ),

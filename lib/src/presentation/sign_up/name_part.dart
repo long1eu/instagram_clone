@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:instagram_clone/src/actions/reserve_username.dart';
 import 'package:instagram_clone/src/actions/update_registration_info.dart';
 import 'package:instagram_clone/src/containers/registration_info_container.dart';
 import 'package:instagram_clone/src/models/app_state.dart';
@@ -50,7 +51,7 @@ class _NamePartState extends State<NamePart> {
           const SizedBox(height: 24.0),
           RegistrationInfoContainer(
             builder: (BuildContext context, RegistrationInfo info) {
-              return TextField(
+              return TextFormField(
                 controller: name,
                 keyboardType: TextInputType.text,
                 decoration: const InputDecoration(
@@ -60,6 +61,13 @@ class _NamePartState extends State<NamePart> {
                 onChanged: (String value) {
                   StoreProvider.of<AppState>(context)
                       .dispatch(UpdateRegistrationInfo(info.copyWith(displayName: value)));
+                },
+                validator: (String value) {
+                  if (value.trim().length < 3) {
+                    return 'Please give us you name.';
+                  }
+
+                  return null;
                 },
               );
             },
@@ -73,8 +81,11 @@ class _NamePartState extends State<NamePart> {
               colorBrightness: Brightness.light,
               child: const Text('Next'),
               onPressed: () {
-                FocusScope.of(context).requestFocus(FocusNode());
-                widget.onNext();
+                if (Form.of(context).validate()) {
+                  StoreProvider.of<AppState>(context).dispatch(ReserveUsername());
+                  FocusScope.of(context).requestFocus(FocusNode());
+                  widget.onNext();
+                }
               },
             ),
           ),

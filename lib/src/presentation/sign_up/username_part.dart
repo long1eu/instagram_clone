@@ -6,8 +6,8 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
-import 'package:instagram_clone/src/containers/user_container.dart';
-import 'package:instagram_clone/src/models/app_user.dart';
+import 'package:instagram_clone/src/containers/registration_info_container.dart';
+import 'package:instagram_clone/src/models/registration_info.dart';
 
 class UsernamePart extends StatefulWidget {
   const UsernamePart({Key key, @required this.onNext}) : super(key: key);
@@ -27,10 +27,10 @@ class _UsernamePartState extends State<UsernamePart> {
       padding: const EdgeInsets.symmetric(horizontal: 32.0),
       child: Column(
         children: <Widget>[
-          UserContainer(
-            builder: (BuildContext context, AppUser user) {
+          RegistrationInfoContainer(
+            builder: (BuildContext context, RegistrationInfo info) {
               return Text(
-                'Welcom to Instagram, ${user?.username}',
+                'Welcome to Instagram, ${info.username}',
                 textAlign: TextAlign.center,
                 style: const TextStyle(
                   fontSize: 20.0,
@@ -60,8 +60,6 @@ class _UsernamePartState extends State<UsernamePart> {
               onPressed: () {
                 FocusScope.of(context).requestFocus(FocusNode());
                 widget.onNext();
-
-
               },
             ),
           ),

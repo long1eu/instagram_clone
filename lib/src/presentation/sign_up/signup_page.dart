@@ -20,8 +20,16 @@ class SignUpPage extends StatefulWidget {
 class _SignUpPageState extends State<SignUpPage> {
   final PageController controller = PageController();
 
+  void nextPage() {
+    controller.nextPage(duration: const Duration(milliseconds: 300), curve: Curves.linear);
+  }
+
   @override
   Widget build(BuildContext context) {
+    // lung.razvan@gmail.com => lung.razvan
+    // Razvan Lung => lung.razvan, lungrazvan
+    // Razvan = razvan
+
     return Scaffold(
       appBar: AppBar(
         elevation: 0.0,
@@ -31,36 +39,18 @@ class _SignUpPageState extends State<SignUpPage> {
         child: Column(
           children: <Widget>[
             Flexible(
-              child: PageView(
-                controller: controller,
-                physics: const NeverScrollableScrollPhysics(),
-                children: <Widget>[
-                  EmailPart(
-                    onNext: () {
-                      controller.nextPage(duration: const Duration(milliseconds: 300), curve: Curves.linear);
-                    },
-                  ),
-                  NamePart(
-                    onNext: () {
-                      controller.nextPage(duration: const Duration(milliseconds: 300), curve: Curves.linear);
-                    },
-                  ),
-                  PasswordPart(
-                    onNext: () {
-                      controller.nextPage(duration: const Duration(milliseconds: 300), curve: Curves.linear);
-                    },
-                  ),
-                  BirthDatePart(
-                    onNext: () {
-                      controller.nextPage(duration: const Duration(milliseconds: 300), curve: Curves.linear);
-                    },
-                  ),
-                  UsernamePart(
-                    onNext: () {
-                      controller.nextPage(duration: const Duration(milliseconds: 300), curve: Curves.linear);
-                    },
-                  ),
-                ],
+              child: Form(
+                child: PageView(
+                  controller: controller,
+                  physics: const NeverScrollableScrollPhysics(),
+                  children: <Widget>[
+                    EmailPart(onNext: nextPage),
+                    NamePart(onNext: nextPage),
+                    PasswordPart(onNext: nextPage),
+                    BirthDatePart(onNext: nextPage),
+                    UsernamePart(onNext: nextPage),
+                  ],
+                ),
               ),
             ),
             const Divider(),

@@ -17,4 +17,8 @@ class LoginSuccessful {
   final AppUser user;
 }
 
-class LoginError {}
+class LoginError {
+  const LoginError(this.error);
+
+  final Object error;
+}

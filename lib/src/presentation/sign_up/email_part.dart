@@ -2,6 +2,7 @@
 // Lung Razvan <long1eu>
 // on 24/04/2020
 
+import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
@@ -28,9 +29,10 @@ class _EmailPartState extends State<EmailPart> with SingleTickerProviderStateMix
   @override
   void initState() {
     super.initState();
-    tabController = TabController(length: 2, vsync: this) //
+    tabController = TabController(length: 2, vsync: this, initialIndex: 1) //
       ..addListener(() {
         setState(() {});
+        Form.of(context).reset();
         FocusScope.of(context).requestFocus(FocusNode());
       });
   }
@@ -78,7 +80,7 @@ class _EmailPartState extends State<EmailPart> with SingleTickerProviderStateMix
           const SizedBox(height: 24.0),
           RegistrationInfoContainer(
             builder: (BuildContext context, RegistrationInfo info) {
-              return TextField(
+              return TextFormField(
                 controller: isPhone ? phone : email,
                 keyboardType: isPhone ? TextInputType.phone : TextInputType.emailAddress,
                 decoration: InputDecoration(
@@ -93,6 +95,25 @@ class _EmailPartState extends State<EmailPart> with SingleTickerProviderStateMix
                     StoreProvider.of<AppState>(context).dispatch(UpdateRegistrationInfo(info.copyWith(email: value)));
                   }
                 },
+                validator: (String value) {
+                  if (isPhone) {
+                    if (value.length < 10) {
+                      return 'Your phone number is to short.';
+                    } else if (value.length > 10) {
+                      return 'Your phone number is to long.';
+                    } else if (!value.startsWith('07')) {
+                      return 'You need to used a mobile phone number from Romania.';
+                    }
+
+                    return null;
+                  } else {
+                    if (!EmailValidator.validate(value)) {
+                      return 'This doesn\'t look like an email address.';
+                    }
+
+                    return null;
+                  }
+                },
               );
             },
           ),
@@ -105,8 +126,10 @@ class _EmailPartState extends State<EmailPart> with SingleTickerProviderStateMix
               colorBrightness: Brightness.light,
               child: const Text('Next'),
               onPressed: () {
-                FocusScope.of(context).requestFocus(FocusNode());
-                widget.onNext();
+                if (Form.of(context).validate()) {
+                  FocusScope.of(context).requestFocus(FocusNode());
+                  widget.onNext();
+                }
               },
             ),
           ),

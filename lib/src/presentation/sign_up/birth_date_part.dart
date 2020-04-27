@@ -14,17 +14,10 @@ import 'package:instagram_clone/src/models/app_state.dart';
 import 'package:instagram_clone/src/models/registration_info.dart';
 import 'package:intl/intl.dart';
 
-class BirthDatePart extends StatefulWidget {
+class BirthDatePart extends StatelessWidget {
   const BirthDatePart({Key key, @required this.onNext}) : super(key: key);
 
   final VoidCallback onNext;
-
-  @override
-  _BirthDatePartState createState() => _BirthDatePartState();
-}
-
-class _BirthDatePartState extends State<BirthDatePart> {
-  final TextEditingController password = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -34,6 +27,7 @@ class _BirthDatePartState extends State<BirthDatePart> {
         builder: (BuildContext context, RegistrationInfo info) {
           final DateTime birthDate = info.birthDate ?? DateTime.now();
           final DateFormat format = DateFormat.yMMMMd();
+          final int years = DateTime.now().difference(birthDate).inDays ~/ 365;
 
           return Column(
             children: <Widget>[
@@ -77,9 +71,21 @@ class _BirthDatePartState extends State<BirthDatePart> {
                   borderSide: BorderSide(
                     color: Theme.of(context).accentColor,
                   ),
-                  child: Container(
-                    alignment: AlignmentDirectional.centerStart,
-                    child: Text(format.format(birthDate)),
+                  child: Row(
+                    children: <Widget>[
+                      Expanded(
+                        child: Container(
+                          alignment: AlignmentDirectional.centerStart,
+                          child: Text(format.format(birthDate)),
+                        ),
+                      ),
+                      Text(
+                        '$years ${years == 1 ? 'year' : 'years'} old',
+                        style: TextStyle(
+                          color: years <= 4 ? Colors.red : Colors.white,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ),
@@ -117,8 +123,10 @@ class _BirthDatePartState extends State<BirthDatePart> {
                   colorBrightness: Brightness.light,
                   child: const Text('Next'),
                   onPressed: () {
-                    FocusScope.of(context).requestFocus(FocusNode());
-                    widget.onNext();
+                    if (years > 4) {
+                      FocusScope.of(context).requestFocus(FocusNode());
+                      onNext();
+                    }
                   },
                 ),
               ),

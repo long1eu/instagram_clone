@@ -5,9 +5,11 @@
 import 'package:instagram_clone/src/actions/initialize_app.dart';
 import 'package:instagram_clone/src/actions/login.dart';
 import 'package:instagram_clone/src/actions/logout.dart';
+import 'package:instagram_clone/src/actions/reserve_username.dart';
 import 'package:instagram_clone/src/actions/signup.dart';
 import 'package:instagram_clone/src/actions/update_registration_info.dart';
 import 'package:instagram_clone/src/models/app_state.dart';
+import 'package:instagram_clone/src/models/registration_info.dart';
 import 'package:redux/redux.dart';
 
 AppState reducer(AppState state, dynamic action) {
@@ -22,6 +24,7 @@ Reducer<AppState> _reducer = combineReducers<AppState>(<Reducer<AppState>>[
   TypedReducer<AppState, LogoutSuccessful>(_logoutSuccessful),
   TypedReducer<AppState, SignUpSuccessful>(_signUpSuccessful),
   TypedReducer<AppState, UpdateRegistrationInfo>(_updateRegistrationInfo),
+  TypedReducer<AppState, ReserveUsernameSuccessful>(_reserveUsernameSuccessful),
 ]);
 
 AppState _initializeAppSuccessful(AppState state, InitializeAppSuccessful action) {
@@ -42,4 +45,9 @@ AppState _signUpSuccessful(AppState state, SignUpSuccessful action) {
 
 AppState _updateRegistrationInfo(AppState state, UpdateRegistrationInfo action) {
   return state.copyWith(info: action.info);
+}
+
+AppState _reserveUsernameSuccessful(AppState state, ReserveUsernameSuccessful action) {
+  final RegistrationInfo registrationInfo = state.info.copyWith(username: action.username);
+  return state.copyWith(info: registrationInfo);
 }
