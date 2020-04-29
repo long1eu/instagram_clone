@@ -114,9 +114,13 @@ class AppMiddleware {
 
     try {
       final String verificationId = await authApi.sendSms(store.state.info.phone);
-      store.dispatch(SendSmsSuccessful(verificationId));
+      final SendSmsSuccessful successful = SendSmsSuccessful(verificationId);
+      store.dispatch(successful);
+      action.result(successful);
     } catch (e) {
-      store.dispatch(SendSmsError(e));
+      final SendSmsError error = SendSmsError(e);
+      store.dispatch(error);
+      action.result(error);
     }
   }
 }

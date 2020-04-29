@@ -43,7 +43,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   physics: const NeverScrollableScrollPhysics(),
                   children: <Widget>[
                     EmailAndPhonePart(
-                      onNext: () {},
+                      onNext: nextPage,
                       onChanged: (RegisterType value) {
                         setState(() => registerType = value);
                       },

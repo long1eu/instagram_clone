@@ -41,7 +41,7 @@ class AppUser {
       'displayName': displayName,
       'username': username,
       'email': email,
-      'birthDate': birthDate.millisecondsSinceEpoch,
+      'birthDate': birthDate?.millisecondsSinceEpoch,
       'photoUrl': photoUrl,
     };
   }

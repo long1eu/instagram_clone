@@ -43,6 +43,31 @@ class _EmailAndPhonePartState extends State<EmailAndPhonePart> with SingleTicker
       });
   }
 
+  void _onSmsSent(dynamic action) {
+    if (action is SendSmsSuccessful) {
+      FocusScope.of(context).requestFocus(FocusNode());
+      widget.onNext();
+    } else if (action is SendSmsError) {
+      showDialog<void>(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text('Sms code error'),
+            content: Text(action.error.toString()),
+            actions: <Widget>[
+              FlatButton(
+                child: const Text('OK'),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              ),
+            ],
+          );
+        },
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final bool isPhone = tabController.index == 0;
@@ -135,7 +160,7 @@ class _EmailAndPhonePartState extends State<EmailAndPhonePart> with SingleTicker
               onPressed: () {
                 if (Form.of(context).validate()) {
                   if (isPhone) {
-                    StoreProvider.of<AppState>(context).dispatch(const SendSms());
+                    StoreProvider.of<AppState>(context).dispatch(SendSms(_onSmsSent));
                   } else {
                     FocusScope.of(context).requestFocus(FocusNode());
                     widget.onNext();

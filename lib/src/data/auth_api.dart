@@ -83,7 +83,7 @@ class AuthApi {
     }
 
     final DocumentSnapshot snapshot = await firestore.document('users/${firebaseUser.uid}').get();
-    if (snapshot.exists) {
+    if (snapshot.exists && info == null) {
       return AppUser.fromJson(snapshot.data);
     }
 

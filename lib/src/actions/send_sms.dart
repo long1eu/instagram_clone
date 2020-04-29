@@ -2,8 +2,12 @@
 // Lung Razvan <long1eu>
 // on 29/04/2020
 
+import 'package:instagram_clone/src/actions/reset_password.dart';
+
 class SendSms {
-  const SendSms();
+  const SendSms(this.result);
+
+  final ActionResult result;
 }
 
 class SendSmsSuccessful {
