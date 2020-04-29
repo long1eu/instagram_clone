@@ -6,7 +6,10 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_redux/flutter_redux.dart';
+import 'package:instagram_clone/src/actions/signup.dart';
 import 'package:instagram_clone/src/containers/registration_info_container.dart';
+import 'package:instagram_clone/src/models/app_state.dart';
 import 'package:instagram_clone/src/models/registration_info.dart';
 
 class UsernamePart extends StatefulWidget {
@@ -20,6 +23,14 @@ class UsernamePart extends StatefulWidget {
 
 class _UsernamePartState extends State<UsernamePart> {
   final TextEditingController name = TextEditingController();
+
+  void _onSignUp(dynamic action) {
+    if (action is SignUpSuccessful) {
+      Navigator.pop(context);
+    } else {
+      // show error
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -58,8 +69,7 @@ class _UsernamePartState extends State<UsernamePart> {
               colorBrightness: Brightness.light,
               child: const Text('Next'),
               onPressed: () {
-                FocusScope.of(context).requestFocus(FocusNode());
-                widget.onNext();
+                StoreProvider.of<AppState>(context).dispatch(SignUp(_onSignUp));
               },
             ),
           ),

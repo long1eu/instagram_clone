@@ -5,6 +5,9 @@
 class RegistrationInfo {
   const RegistrationInfo({
     this.email,
+    this.phone,
+    this.verificationId,
+    this.smsCode,
     this.displayName,
     this.password,
     this.birthDate,
@@ -13,6 +16,9 @@ class RegistrationInfo {
   });
 
   final String email;
+  final String phone;
+  final String verificationId;
+  final String smsCode;
   final String displayName;
   final String password;
   final DateTime birthDate;
@@ -21,6 +27,9 @@ class RegistrationInfo {
 
   RegistrationInfo copyWith({
     String email,
+    String phone,
+    String verificationId,
+    String smsCode,
     String displayName,
     String password,
     DateTime birthDate,
@@ -29,6 +38,9 @@ class RegistrationInfo {
   }) {
     return RegistrationInfo(
       email: email ?? this.email,
+      phone: phone ?? this.phone,
+      verificationId: verificationId ?? this.verificationId,
+      smsCode: smsCode ?? this.smsCode,
       displayName: displayName ?? this.displayName,
       password: password ?? this.password,
       birthDate: birthDate ?? this.birthDate,
@@ -38,7 +50,5 @@ class RegistrationInfo {
   }
 
   @override
-  String toString() {
-    return 'RegistrationInfo{email: $email, displayName: $displayName, password: $password, birthDate: $birthDate, username: $username, savePassword: $savePassword}';
-  }
+  String toString() => 'RegistrationInfo{email: $email, phone: $phone, verificationId: $verificationId, smsCode: $smsCode, displayName: $displayName, password: $password, birthDate: $birthDate, username: $username, savePassword: $savePassword}';
 }

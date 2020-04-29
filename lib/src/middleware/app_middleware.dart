@@ -8,6 +8,7 @@ import 'package:instagram_clone/src/actions/login.dart';
 import 'package:instagram_clone/src/actions/logout.dart';
 import 'package:instagram_clone/src/actions/reserve_username.dart';
 import 'package:instagram_clone/src/actions/reset_password.dart';
+import 'package:instagram_clone/src/actions/send_sms.dart';
 import 'package:instagram_clone/src/actions/signup.dart';
 import 'package:instagram_clone/src/data/auth_api.dart';
 import 'package:instagram_clone/src/models/app_state.dart';
@@ -28,6 +29,7 @@ class AppMiddleware {
       TypedMiddleware<AppState, ResetPassword>(_resetPassword),
       TypedMiddleware<AppState, SignUp>(_signUp),
       TypedMiddleware<AppState, ReserveUsername>(_reserveUsername),
+      TypedMiddleware<AppState, SendSms>(_sendSms),
     ];
   }
 
@@ -84,7 +86,7 @@ class AppMiddleware {
     next(action);
 
     try {
-      final AppUser user = await authApi.signUp(action.email, action.password);
+      final AppUser user = await authApi.signUp(store.state.info);
       final SignUpSuccessful successfulAction = SignUpSuccessful(user);
       store.dispatch(successfulAction);
       action.result(successfulAction);
@@ -104,6 +106,17 @@ class AppMiddleware {
       store.dispatch(ReserveUsernameSuccessful(username));
     } catch (error) {
       store.dispatch(ReserveUsernameError(error));
+    }
+  }
+
+  Future<void> _sendSms(Store<AppState> store, SendSms action, NextDispatcher next) async {
+    next(action);
+
+    try {
+      final String verificationId = await authApi.sendSms(store.state.info.phone);
+      store.dispatch(SendSmsSuccessful(verificationId));
+    } catch (e) {
+      store.dispatch(SendSmsError(e));
     }
   }
 }

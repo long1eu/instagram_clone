@@ -6,10 +6,8 @@ import 'package:instagram_clone/src/actions/reset_password.dart';
 import 'package:instagram_clone/src/models/app_user.dart';
 
 class SignUp {
-  const SignUp(this.email, this.password, this.result);
+  const SignUp(this.result);
 
-  final String email;
-  final String password;
   final ActionResult result;
 }
 

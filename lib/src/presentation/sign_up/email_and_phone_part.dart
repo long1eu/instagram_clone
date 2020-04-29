@@ -7,21 +7,25 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:instagram_clone/src/actions/send_sms.dart';
 import 'package:instagram_clone/src/actions/update_registration_info.dart';
 import 'package:instagram_clone/src/containers/registration_info_container.dart';
 import 'package:instagram_clone/src/models/app_state.dart';
 import 'package:instagram_clone/src/models/registration_info.dart';
 
-class EmailPart extends StatefulWidget {
-  const EmailPart({Key key, @required this.onNext}) : super(key: key);
+enum RegisterType { email, phone }
+
+class EmailAndPhonePart extends StatefulWidget {
+  const EmailAndPhonePart({Key key, @required this.onNext, @required this.onChanged}) : super(key: key);
 
   final VoidCallback onNext;
+  final ValueChanged<RegisterType> onChanged;
 
   @override
-  _EmailPartState createState() => _EmailPartState();
+  _EmailAndPhonePartState createState() => _EmailAndPhonePartState();
 }
 
-class _EmailPartState extends State<EmailPart> with SingleTickerProviderStateMixin {
+class _EmailAndPhonePartState extends State<EmailAndPhonePart> with SingleTickerProviderStateMixin {
   final TextEditingController phone = TextEditingController();
   final TextEditingController email = TextEditingController();
   TabController tabController;
@@ -31,6 +35,8 @@ class _EmailPartState extends State<EmailPart> with SingleTickerProviderStateMix
     super.initState();
     tabController = TabController(length: 2, vsync: this, initialIndex: 1) //
       ..addListener(() {
+        widget.onChanged(tabController.index == 0 ? RegisterType.phone : RegisterType.email);
+
         setState(() {});
         Form.of(context).reset();
         FocusScope.of(context).requestFocus(FocusNode());
@@ -89,7 +95,8 @@ class _EmailPartState extends State<EmailPart> with SingleTickerProviderStateMix
                 ),
                 onChanged: (String value) {
                   if (isPhone) {
-                    // todo: add phone registration
+                    info ??= const RegistrationInfo();
+                    StoreProvider.of<AppState>(context).dispatch(UpdateRegistrationInfo(info.copyWith(phone: value)));
                   } else {
                     info ??= const RegistrationInfo();
                     StoreProvider.of<AppState>(context).dispatch(UpdateRegistrationInfo(info.copyWith(email: value)));
@@ -127,8 +134,12 @@ class _EmailPartState extends State<EmailPart> with SingleTickerProviderStateMix
               child: const Text('Next'),
               onPressed: () {
                 if (Form.of(context).validate()) {
-                  FocusScope.of(context).requestFocus(FocusNode());
-                  widget.onNext();
+                  if (isPhone) {
+                    StoreProvider.of<AppState>(context).dispatch(const SendSms());
+                  } else {
+                    FocusScope.of(context).requestFocus(FocusNode());
+                    widget.onNext();
+                  }
                 }
               },
             ),

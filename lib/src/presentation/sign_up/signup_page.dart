@@ -5,9 +5,10 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:instagram_clone/src/presentation/sign_up/birth_date_part.dart';
-import 'package:instagram_clone/src/presentation/sign_up/email_part.dart';
+import 'package:instagram_clone/src/presentation/sign_up/email_and_phone_part.dart';
 import 'package:instagram_clone/src/presentation/sign_up/name_part.dart';
 import 'package:instagram_clone/src/presentation/sign_up/password_part.dart';
+import 'package:instagram_clone/src/presentation/sign_up/sms_code_part.dart';
 import 'package:instagram_clone/src/presentation/sign_up/username_part.dart';
 
 class SignUpPage extends StatefulWidget {
@@ -19,6 +20,7 @@ class SignUpPage extends StatefulWidget {
 
 class _SignUpPageState extends State<SignUpPage> {
   final PageController controller = PageController();
+  RegisterType registerType = RegisterType.email;
 
   void nextPage() {
     controller.nextPage(duration: const Duration(milliseconds: 300), curve: Curves.linear);
@@ -26,10 +28,6 @@ class _SignUpPageState extends State<SignUpPage> {
 
   @override
   Widget build(BuildContext context) {
-    // lung.razvan@gmail.com => lung.razvan
-    // Razvan Lung => lung.razvan, lungrazvan
-    // Razvan = razvan
-
     return Scaffold(
       appBar: AppBar(
         elevation: 0.0,
@@ -44,9 +42,15 @@ class _SignUpPageState extends State<SignUpPage> {
                   controller: controller,
                   physics: const NeverScrollableScrollPhysics(),
                   children: <Widget>[
-                    EmailPart(onNext: nextPage),
+                    EmailAndPhonePart(
+                      onNext: () {},
+                      onChanged: (RegisterType value) {
+                        setState(() => registerType = value);
+                      },
+                    ),
+                    if (registerType == RegisterType.phone) SmsCodePart(onNext: nextPage),
                     NamePart(onNext: nextPage),
-                    PasswordPart(onNext: nextPage),
+                    if (registerType == RegisterType.email) PasswordPart(onNext: nextPage),
                     BirthDatePart(onNext: nextPage),
                     UsernamePart(onNext: nextPage),
                   ],
