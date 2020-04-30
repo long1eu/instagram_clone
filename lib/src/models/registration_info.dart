@@ -2,53 +2,49 @@
 // Lung Razvan <long1eu>
 // on 24/04/2020
 
-class RegistrationInfo {
-  const RegistrationInfo({
-    this.email,
-    this.phone,
-    this.verificationId,
-    this.smsCode,
-    this.displayName,
-    this.password,
-    this.birthDate,
-    this.username,
-    this.savePassword = false,
-  });
+library registration_info;
 
-  final String email;
-  final String phone;
-  final String verificationId;
-  final String smsCode;
-  final String displayName;
-  final String password;
-  final DateTime birthDate;
-  final String username;
-  final bool savePassword;
+import 'package:built_value/built_value.dart';
+import 'package:built_value/serializer.dart';
+import 'package:instagram_clone/src/models/serializers.dart';
 
-  RegistrationInfo copyWith({
-    String email,
-    String phone,
-    String verificationId,
-    String smsCode,
-    String displayName,
-    String password,
-    DateTime birthDate,
-    String username,
-    bool savePassword,
-  }) {
-    return RegistrationInfo(
-      email: email ?? this.email,
-      phone: phone ?? this.phone,
-      verificationId: verificationId ?? this.verificationId,
-      smsCode: smsCode ?? this.smsCode,
-      displayName: displayName ?? this.displayName,
-      password: password ?? this.password,
-      birthDate: birthDate ?? this.birthDate,
-      username: username ?? this.username,
-      savePassword: savePassword ?? this.savePassword,
-    );
-  }
+part 'registration_info.g.dart';
 
-  @override
-  String toString() => 'RegistrationInfo{email: $email, phone: $phone, verificationId: $verificationId, smsCode: $smsCode, displayName: $displayName, password: $password, birthDate: $birthDate, username: $username, savePassword: $savePassword}';
+abstract class RegistrationInfo implements Built<RegistrationInfo, RegistrationInfoBuilder> {
+  factory RegistrationInfo([void Function(RegistrationInfoBuilder b) updates]) = _$RegistrationInfo;
+
+  factory RegistrationInfo.fromJson(Map<dynamic, dynamic> json) => serializers.deserializeWith(serializer, json);
+
+  RegistrationInfo._();
+
+  @nullable
+  String get email;
+
+  @nullable
+  String get phone;
+
+  @nullable
+  String get verificationId;
+
+  @nullable
+  String get smsCode;
+
+  @nullable
+  String get displayName;
+
+  @nullable
+  String get password;
+
+  @nullable
+  DateTime get birthDate;
+
+  @nullable
+  String get username;
+
+  @nullable
+  bool get savePassword;
+
+  Map<String, dynamic> get json => serializers.serializeWith(serializer, this);
+
+  static Serializer<RegistrationInfo> get serializer => _$registrationInfoSerializer;
 }

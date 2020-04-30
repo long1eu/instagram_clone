@@ -2,20 +2,55 @@
 // Lung Razvan <long1eu>
 // on 16/04/2020
 
-typedef ActionResult = void Function(dynamic action);
+library reset_password;
 
-class ResetPassword {
-  const ResetPassword(this.email, this.result);
+import 'package:built_value/built_value.dart';
+import 'package:instagram_clone/src/actions/actions.dart';
 
-  final String email;
+part 'reset_password.g.dart';
 
-  final ActionResult result;
+abstract class ResetPassword //
+    implements
+        Built<ResetPassword, ResetPasswordBuilder>,
+        AppAction //
+{
+  factory ResetPassword(String email, ActionResult result) {
+    return _$ResetPassword((ResetPasswordBuilder b) {
+      b
+        ..email = email
+        ..result = result;
+    });
+  }
+
+  ResetPassword._();
+
+  String get email;
+
+  ActionResult get result;
 }
 
-class ResetPasswordSuccessful {}
+abstract class ResetPasswordSuccessful //
+    implements
+        Built<ResetPasswordSuccessful, ResetPasswordSuccessfulBuilder>,
+        AppAction //
+{
+  factory ResetPasswordSuccessful([void Function(ResetPasswordSuccessfulBuilder b) updates]) =
+      _$ResetPasswordSuccessful;
 
-class ResetPasswordError {
-  const ResetPasswordError(this.error);
+  ResetPasswordSuccessful._();
+}
 
-  final Object error;
+abstract class ResetPasswordError //
+    implements
+        Built<ResetPasswordError, ResetPasswordErrorBuilder>,
+        ErrorAction //
+{
+  factory ResetPasswordError(Object error) {
+    return _$ResetPasswordError((ResetPasswordErrorBuilder b) => b.error = error);
+  }
+
+  ResetPasswordError._();
+
+  @override
+  Object get error;
 }

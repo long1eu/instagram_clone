@@ -2,22 +2,56 @@
 // Lung Razvan <long1eu>
 // on 29/04/2020
 
-import 'package:instagram_clone/src/actions/reset_password.dart';
+library send_sms;
 
-class SendSms {
-  const SendSms(this.result);
+import 'package:built_value/built_value.dart';
+import 'package:instagram_clone/src/actions/actions.dart';
 
-  final ActionResult result;
+part 'send_sms.g.dart';
+
+abstract class SendSms //
+    implements
+        Built<SendSms, SendSmsBuilder>,
+        AppAction //
+{
+  factory SendSms(ActionResult result) {
+    return _$SendSms((SendSmsBuilder b) {
+      b.result = result;
+    });
+  }
+
+  SendSms._();
+
+  ActionResult get result;
 }
 
-class SendSmsSuccessful {
-  const SendSmsSuccessful(this.verificationId);
+abstract class SendSmsSuccessful //
+    implements
+        Built<SendSmsSuccessful, SendSmsSuccessfulBuilder>,
+        AppAction //
+{
+  factory SendSmsSuccessful(String verificationId) {
+    return _$SendSmsSuccessful((SendSmsSuccessfulBuilder b) {
+      b.verificationId = verificationId;
+    });
+  }
 
-  final String verificationId;
+  SendSmsSuccessful._();
+
+  String get verificationId;
 }
 
-class SendSmsError {
-  const SendSmsError(this.error);
+abstract class SendSmsError //
+    implements
+        Built<SendSmsError, SendSmsErrorBuilder>,
+        ErrorAction //
+{
+  factory SendSmsError(Object error) {
+    return _$SendSmsError((SendSmsErrorBuilder b) => b.error = error);
+  }
 
-  final Object error;
+  SendSmsError._();
+
+  @override
+  Object get error;
 }

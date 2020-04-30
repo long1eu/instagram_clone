@@ -2,23 +2,62 @@
 // Lung Razvan <long1eu>
 // on 16/04/2020
 
+library login;
+
+import 'package:built_value/built_value.dart';
 import 'package:instagram_clone/src/models/app_user.dart';
 
-class Login {
-  const Login(this.email, this.password);
+import 'actions.dart';
 
-  final String email;
-  final String password;
+part 'login.g.dart';
+
+abstract class Login //
+    implements
+        Built<Login, LoginBuilder>,
+        AppAction //
+{
+  factory Login(String email, String password) {
+    return _$Login((LoginBuilder b) {
+      b
+        ..email = email
+        ..password = password;
+    });
+  }
+
+  Login._();
+
+  String get email;
+
+  String get password;
 }
 
-class LoginSuccessful {
-  const LoginSuccessful(this.user);
+abstract class LoginSuccessful //
+    implements
+        Built<LoginSuccessful, LoginSuccessfulBuilder>,
+        AppAction //
+{
+  factory LoginSuccessful(AppUser user) {
+    return _$LoginSuccessful((LoginSuccessfulBuilder b) {
+      b.user = user.toBuilder();
+    });
+  }
 
-  final AppUser user;
+  LoginSuccessful._();
+
+  AppUser get user;
 }
 
-class LoginError {
-  const LoginError(this.error);
+abstract class LoginError //
+    implements
+        Built<LoginError, LoginErrorBuilder>,
+        ErrorAction //
+{
+  factory LoginError(Object error) {
+    return _$LoginError((LoginErrorBuilder b) => b.error = error);
+  }
 
-  final Object error;
+  LoginError._();
+
+  @override
+  Object get error;
 }

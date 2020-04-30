@@ -15,7 +15,7 @@ import 'package:redux/redux.dart';
 
 AppState reducer(AppState state, dynamic action) {
   final AppState result = _reducer(state, action);
-  print('${action.runtimeType} => $result');
+  print('$action => $result');
   return result;
 }
 

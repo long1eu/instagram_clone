@@ -2,71 +2,40 @@
 // Lung Razvan <long1eu>
 // on 15/04/2020
 
-import 'package:meta/meta.dart';
+library app_user;
 
-class AppUser {
-  AppUser({
-    @required this.uid,
-    @required this.displayName,
-    @required this.username,
-    @required this.email,
-    @required this.phone,
-    @required this.birthDate,
-    @required this.photoUrl,
-  });
+import 'package:built_value/built_value.dart';
+import 'package:built_value/serializer.dart';
+import 'package:instagram_clone/src/models/serializers.dart';
 
-  factory AppUser.fromJson(Map<String, dynamic> json) {
-    return AppUser(
-      uid: json['uid'],
-      displayName: json['displayName'],
-      username: json['username'],
-      email: json['email'],
-      phone: json['phone'],
-      birthDate: json['birthDate'] != null ? DateTime.fromMillisecondsSinceEpoch(json['birthDate']) : null,
-      photoUrl: json['photoUrl'],
-    );
-  }
+part 'app_user.g.dart';
 
-  final String uid;
-  final String displayName;
-  final String username;
-  final String email;
-  final String phone;
-  final DateTime birthDate;
-  final String photoUrl;
+abstract class AppUser implements Built<AppUser, AppUserBuilder> {
+  factory AppUser([void Function(AppUserBuilder b) updates]) = _$AppUser;
 
-  Map<String, dynamic> get json {
-    return <String, dynamic>{
-      'uid': uid,
-      'displayName': displayName,
-      'username': username,
-      'email': email,
-      'birthDate': birthDate?.millisecondsSinceEpoch,
-      'photoUrl': photoUrl,
-    };
-  }
+  AppUser._();
 
-  AppUser copyWith({
-    String uid,
-    String displayName,
-    String username,
-    String email,
-    String phone,
-    DateTime birthDate,
-    String photoUrl,
-  }) {
-    return AppUser(
-      uid: uid ?? this.uid,
-      displayName: displayName ?? this.displayName,
-      username: username ?? this.username,
-      email: email ?? this.email,
-      phone: phone ?? this.phone,
-      birthDate: birthDate ?? this.birthDate,
-      photoUrl: photoUrl ?? this.photoUrl,
-    );
-  }
+  String get uid;
 
-  @override
-  String toString() =>
-      'AppUser{uid: $uid, displayName: $displayName, username: $username, email: $email, phone: $phone, birthDate: $birthDate, photoUrl: $photoUrl}';
+  @nullable
+  String get displayName;
+
+  @nullable
+  String get username;
+
+  @nullable
+  String get email;
+
+  @nullable
+  String get phone;
+
+  @nullable
+  DateTime get birthDate;
+
+  @nullable
+  String get photoUrl;
+
+  Map<String, dynamic> get json => serializers.serializeWith(serializer, this);
+
+  static Serializer<AppUser> get serializer => _$appUserSerializer;
 }

@@ -2,23 +2,57 @@
 // Lung Razvan <long1eu>
 // on 22/04/2020
 
-import 'package:instagram_clone/src/actions/reset_password.dart';
+library signup;
+
+import 'package:built_value/built_value.dart';
+import 'package:instagram_clone/src/actions/actions.dart';
 import 'package:instagram_clone/src/models/app_user.dart';
 
-class SignUp {
-  const SignUp(this.result);
+part 'signup.g.dart';
 
-  final ActionResult result;
+abstract class SignUp //
+    implements
+        Built<SignUp, SignUpBuilder>,
+        AppAction //
+{
+  factory SignUp(ActionResult result) {
+    return _$SignUp((SignUpBuilder b) {
+      b.result = result;
+    });
+  }
+
+  SignUp._();
+
+  ActionResult get result;
 }
 
-class SignUpSuccessful {
-  const SignUpSuccessful(this.user);
+abstract class SignUpSuccessful //
+    implements
+        Built<SignUpSuccessful, SignUpSuccessfulBuilder>,
+        AppAction //
+{
+  factory SignUpSuccessful(AppUser user) {
+    return _$SignUpSuccessful((SignUpSuccessfulBuilder b) {
+      b.user = user.toBuilder();
+    });
+  }
 
-  final AppUser user;
+  SignUpSuccessful._();
+
+  AppUser get user;
 }
 
-class SignUpError {
-  const SignUpError(this.error);
+abstract class SignUpError //
+    implements
+        Built<SignUpError, SignUpErrorBuilder>,
+        ErrorAction //
+{
+  factory SignUpError(Object error) {
+    return _$SignUpError((SignUpErrorBuilder b) => b.error = error);
+  }
 
-  final Object error;
+  SignUpError._();
+
+  @override
+  Object get error;
 }
