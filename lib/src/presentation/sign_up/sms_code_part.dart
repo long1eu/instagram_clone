@@ -101,7 +101,8 @@ class _SmsCodePartState extends State<SmsCodePart> {
                   hintText: 'Confirmation Code',
                 ),
                 onChanged: (String value) {
-                  StoreProvider.of<AppState>(context).dispatch(UpdateRegistrationInfo(info.copyWith(smsCode: value)));
+                  final RegistrationInfo newInfo = info.rebuild((RegistrationInfoBuilder b) => b.smsCode = value);
+                  StoreProvider.of<AppState>(context).dispatch(UpdateRegistrationInfo(newInfo));
                 },
                 validator: (String value) {
                   if (value.length == 6) {

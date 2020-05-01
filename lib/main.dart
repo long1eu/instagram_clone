@@ -23,7 +23,7 @@ void main() {
   final AppMiddleware middleware = AppMiddleware(authApi: authApi);
   final Store<AppState> store = Store<AppState>(
     reducer,
-    initialState: const AppState(),
+    initialState: AppState(),
     middleware: middleware.middleware,
   );
   store.dispatch(InitializeApp());

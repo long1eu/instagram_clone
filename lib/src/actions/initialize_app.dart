@@ -43,16 +43,19 @@ abstract class InitializeApp //
 abstract class InitializeAppSuccessful //
     implements
         Built<InitializeAppSuccessful, InitializeAppSuccessfulBuilder>,
+        UserAction,
         AppAction //
 {
   factory InitializeAppSuccessful(AppUser user) {
     return _$InitializeAppSuccessful((InitializeAppSuccessfulBuilder b) {
-      b.user = user.toBuilder();
+      b.user = user?.toBuilder();
     });
   }
 
   InitializeAppSuccessful._();
 
+  @override
+  @nullable
   AppUser get user;
 }
 

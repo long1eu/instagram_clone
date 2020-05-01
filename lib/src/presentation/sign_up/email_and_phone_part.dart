@@ -120,11 +120,13 @@ class _EmailAndPhonePartState extends State<EmailAndPhonePart> with SingleTicker
                 ),
                 onChanged: (String value) {
                   if (isPhone) {
-                    info ??= const RegistrationInfo();
-                    StoreProvider.of<AppState>(context).dispatch(UpdateRegistrationInfo(info.copyWith(phone: value)));
+                    info ??= RegistrationInfo();
+                    final RegistrationInfo newInfo = info.rebuild((RegistrationInfoBuilder b) => b.phone = value);
+                    StoreProvider.of<AppState>(context).dispatch(UpdateRegistrationInfo(newInfo));
                   } else {
-                    info ??= const RegistrationInfo();
-                    StoreProvider.of<AppState>(context).dispatch(UpdateRegistrationInfo(info.copyWith(email: value)));
+                    info ??= RegistrationInfo();
+                    final RegistrationInfo newInfo = info.rebuild((RegistrationInfoBuilder b) => b.email = value);
+                    StoreProvider.of<AppState>(context).dispatch(UpdateRegistrationInfo(newInfo));
                   }
                 },
                 validator: (String value) {

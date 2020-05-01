@@ -10,7 +10,9 @@ import 'package:instagram_clone/src/models/registration_info.dart';
 part 'update_registration_info.g.dart';
 
 abstract class UpdateRegistrationInfo implements Built<UpdateRegistrationInfo, UpdateRegistrationInfoBuilder> {
-  factory UpdateRegistrationInfo([void Function(UpdateRegistrationInfoBuilder b) updates]) = _$UpdateRegistrationInfo;
+  factory UpdateRegistrationInfo(RegistrationInfo info) {
+    return _$UpdateRegistrationInfo((UpdateRegistrationInfoBuilder b) => b.info = info.toBuilder());
+  }
 
   UpdateRegistrationInfo._();
 

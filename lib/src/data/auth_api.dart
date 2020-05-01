@@ -88,15 +88,15 @@ class AuthApi {
     }
 
     assert(info != null);
-    final AppUser user = AppUser(
-      uid: firebaseUser.uid,
-      displayName: info.displayName,
-      username: info.username,
-      email: info.email,
-      birthDate: info.birthDate,
-      phone: info.phone,
-      photoUrl: null,
-    );
+    final AppUser user = AppUser((AppUserBuilder b) {
+      b
+        ..uid = firebaseUser.uid
+        ..displayName = info.displayName
+        ..username = info.username
+        ..email = info.email
+        ..birthDate = info.birthDate
+        ..phone = info.phone;
+    });
 
     await firestore.document('users/${user.uid}').setData(user.json);
     return user;

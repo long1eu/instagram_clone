@@ -29,6 +29,7 @@ abstract class SignUp //
 abstract class SignUpSuccessful //
     implements
         Built<SignUpSuccessful, SignUpSuccessfulBuilder>,
+        UserAction,
         AppAction //
 {
   factory SignUpSuccessful(AppUser user) {
@@ -39,6 +40,7 @@ abstract class SignUpSuccessful //
 
   SignUpSuccessful._();
 
+  @override
   AppUser get user;
 }
 

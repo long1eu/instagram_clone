@@ -65,8 +65,8 @@ class _PasswordPartState extends State<PasswordPart> {
                     hintText: 'password',
                   ),
                   onChanged: (String value) {
-                    StoreProvider.of<AppState>(context)
-                        .dispatch(UpdateRegistrationInfo(info.copyWith(password: value)));
+                    final RegistrationInfo newInfo = info.rebuild((RegistrationInfoBuilder b) => b.password = value);
+                    StoreProvider.of<AppState>(context).dispatch(UpdateRegistrationInfo(newInfo));
                   },
                   validator: (String value) {
                     print(estimatePasswordStrength(value));
@@ -83,8 +83,9 @@ class _PasswordPartState extends State<PasswordPart> {
                   Checkbox(
                     value: info.savePassword,
                     onChanged: (bool value) {
-                      StoreProvider.of<AppState>(context)
-                          .dispatch(UpdateRegistrationInfo(info.copyWith(savePassword: value)));
+                      final RegistrationInfo newInfo =
+                          info.rebuild((RegistrationInfoBuilder b) => b.savePassword = value);
+                      StoreProvider.of<AppState>(context).dispatch(UpdateRegistrationInfo(newInfo));
                     },
                   ),
                   const Text('Save password'),

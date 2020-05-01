@@ -34,6 +34,7 @@ abstract class Login //
 abstract class LoginSuccessful //
     implements
         Built<LoginSuccessful, LoginSuccessfulBuilder>,
+        UserAction,
         AppAction //
 {
   factory LoginSuccessful(AppUser user) {
@@ -44,6 +45,7 @@ abstract class LoginSuccessful //
 
   LoginSuccessful._();
 
+  @override
   AppUser get user;
 }
 

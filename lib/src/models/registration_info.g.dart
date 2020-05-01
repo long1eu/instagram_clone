@@ -19,7 +19,11 @@ class _$RegistrationInfoSerializer
   @override
   Iterable<Object> serialize(Serializers serializers, RegistrationInfo object,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = <Object>[];
+    final result = <Object>[
+      'savePassword',
+      serializers.serialize(object.savePassword,
+          specifiedType: const FullType(bool)),
+    ];
     if (object.email != null) {
       result
         ..add('email')
@@ -67,12 +71,6 @@ class _$RegistrationInfoSerializer
         ..add('username')
         ..add(serializers.serialize(object.username,
             specifiedType: const FullType(String)));
-    }
-    if (object.savePassword != null) {
-      result
-        ..add('savePassword')
-        ..add(serializers.serialize(object.savePassword,
-            specifiedType: const FullType(bool)));
     }
     return result;
   }
@@ -166,7 +164,11 @@ class _$RegistrationInfo extends RegistrationInfo {
       this.birthDate,
       this.username,
       this.savePassword})
-      : super._();
+      : super._() {
+    if (savePassword == null) {
+      throw new BuiltValueNullFieldError('RegistrationInfo', 'savePassword');
+    }
+  }
 
   @override
   RegistrationInfo rebuild(void Function(RegistrationInfoBuilder) updates) =>

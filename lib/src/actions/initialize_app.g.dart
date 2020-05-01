@@ -71,11 +71,7 @@ class _$InitializeAppSuccessful extends InitializeAppSuccessful {
           [void Function(InitializeAppSuccessfulBuilder) updates]) =>
       (new InitializeAppSuccessfulBuilder()..update(updates)).build();
 
-  _$InitializeAppSuccessful._({this.user}) : super._() {
-    if (user == null) {
-      throw new BuiltValueNullFieldError('InitializeAppSuccessful', 'user');
-    }
-  }
+  _$InitializeAppSuccessful._({this.user}) : super._();
 
   @override
   InitializeAppSuccessful rebuild(
@@ -141,12 +137,12 @@ class InitializeAppSuccessfulBuilder
   _$InitializeAppSuccessful build() {
     _$InitializeAppSuccessful _$result;
     try {
-      _$result = _$v ?? new _$InitializeAppSuccessful._(user: user.build());
+      _$result = _$v ?? new _$InitializeAppSuccessful._(user: _user?.build());
     } catch (_) {
       String _$failedField;
       try {
         _$failedField = 'user';
-        user.build();
+        _user?.build();
       } catch (e) {
         throw new BuiltValueNestedFieldError(
             'InitializeAppSuccessful', _$failedField, e.toString());

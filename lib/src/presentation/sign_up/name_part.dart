@@ -59,8 +59,8 @@ class _NamePartState extends State<NamePart> {
                   hintText: 'name',
                 ),
                 onChanged: (String value) {
-                  StoreProvider.of<AppState>(context)
-                      .dispatch(UpdateRegistrationInfo(info.copyWith(displayName: value)));
+                  final RegistrationInfo newInfo = info.rebuild((RegistrationInfoBuilder b) => b.displayName = value);
+                  StoreProvider.of<AppState>(context).dispatch(UpdateRegistrationInfo(newInfo));
                 },
                 validator: (String value) {
                   if (value.trim().length < 3) {

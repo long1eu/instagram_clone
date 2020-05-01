@@ -13,6 +13,8 @@ part 'app_user.g.dart';
 abstract class AppUser implements Built<AppUser, AppUserBuilder> {
   factory AppUser([void Function(AppUserBuilder b) updates]) = _$AppUser;
 
+  factory AppUser.fromJson(Map<dynamic, dynamic> json) => serializers.deserializeWith(serializer, json);
+
   AppUser._();
 
   String get uid;
