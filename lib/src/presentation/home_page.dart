@@ -7,8 +7,25 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:instagram_clone/src/actions/logout.dart';
 import 'package:instagram_clone/src/models/app_state.dart';
 
-class HomePage extends StatelessWidget {
+import 'add_post_page.dart';
+
+class HomePage extends StatefulWidget {
   const HomePage({Key key}) : super(key: key);
+
+  @override
+  _HomePageState createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin {
+  TabController tabController;
+
+  int page = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    tabController = TabController(length: 4, vsync: this);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -20,6 +37,64 @@ class HomePage extends StatelessWidget {
             onPressed: () async {
               StoreProvider.of<AppState>(context).dispatch(Logout());
             },
+          ),
+        ],
+      ),
+      body: TabBarView(
+        controller: tabController,
+        children: <Widget>[
+          Container(color: Colors.red),
+          Container(color: Colors.orange),
+          Container(color: Colors.blue),
+          Container(color: Colors.green),
+        ],
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        onTap: (int index) {
+          if (index == 2) {
+            print('show post dialog');
+
+            Navigator.push(
+              context,
+              MaterialPageRoute<void>(
+                fullscreenDialog: true,
+                builder: (BuildContext context) {
+                  return const AddPostPage();
+                },
+              ),
+            );
+          } else {
+            setState(() => page = index);
+            if (index > 2) {
+              index--;
+            }
+
+            tabController.animateTo(index);
+          }
+        },
+        currentIndex: page,
+        selectedItemColor: Theme.of(context).accentColor,
+        unselectedItemColor: Colors.white,
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            title: Text('Home'),
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.search),
+            title: Text('Search'),
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.add_box),
+            title: Text('Add post'),
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.favorite_border),
+            title: Text('Favorite'),
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person_outline),
+            title: Text('Profile'),
           ),
         ],
       ),

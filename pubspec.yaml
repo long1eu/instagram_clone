@@ -21,6 +21,9 @@ dependencies:
   password_strength: ^0.1.2
   built_value: ^7.1.0
   built_collection: ^4.3.2
+  camera: ^0.5.7+4
+  path_provider: ^1.6.7
+  uuid: ^2.0.4
 
 dev_dependencies:
   flutter_test:
