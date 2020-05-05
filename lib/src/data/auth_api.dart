@@ -127,7 +127,11 @@ class AuthApi {
     }
 
     final Random random = Random();
-    username = email.split('@')[0] + '${random.nextInt(1 << 32)}';
+    if (email != null) {
+      username = email.split('@')[0] + '${random.nextInt(1 << 32)}';
+    } else {
+      username = displayName.split(' ').join('.') + '${random.nextInt(1 << 32)}';
+    }
     return username;
   }
 }
