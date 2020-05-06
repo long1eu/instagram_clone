@@ -7,7 +7,7 @@ library login;
 import 'package:built_value/built_value.dart';
 import 'package:instagram_clone/src/models/app_user.dart';
 
-import 'actions.dart';
+import '../actions.dart';
 
 part 'login.g.dart';
 

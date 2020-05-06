@@ -17,7 +17,12 @@ class _$AppStateSerializer implements StructuredSerializer<AppState> {
   @override
   Iterable<Object> serialize(Serializers serializers, AppState object,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = <Object>[];
+    final result = <Object>[
+      'posts',
+      serializers.serialize(object.posts,
+          specifiedType:
+              const FullType(BuiltList, const [const FullType(Post)])),
+    ];
     if (object.user != null) {
       result
         ..add('user')
@@ -53,6 +58,12 @@ class _$AppStateSerializer implements StructuredSerializer<AppState> {
                   specifiedType: const FullType(RegistrationInfo))
               as RegistrationInfo);
           break;
+        case 'posts':
+          result.posts.replace(serializers.deserialize(value,
+                  specifiedType:
+                      const FullType(BuiltList, const [const FullType(Post)]))
+              as BuiltList<Object>);
+          break;
       }
     }
 
@@ -65,11 +76,17 @@ class _$AppState extends AppState {
   final AppUser user;
   @override
   final RegistrationInfo info;
+  @override
+  final BuiltList<Post> posts;
 
   factory _$AppState([void Function(AppStateBuilder) updates]) =>
       (new AppStateBuilder()..update(updates)).build();
 
-  _$AppState._({this.user, this.info}) : super._();
+  _$AppState._({this.user, this.info, this.posts}) : super._() {
+    if (posts == null) {
+      throw new BuiltValueNullFieldError('AppState', 'posts');
+    }
+  }
 
   @override
   AppState rebuild(void Function(AppStateBuilder) updates) =>
@@ -81,19 +98,23 @@ class _$AppState extends AppState {
   @override
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
-    return other is AppState && user == other.user && info == other.info;
+    return other is AppState &&
+        user == other.user &&
+        info == other.info &&
+        posts == other.posts;
   }
 
   @override
   int get hashCode {
-    return $jf($jc($jc(0, user.hashCode), info.hashCode));
+    return $jf($jc($jc($jc(0, user.hashCode), info.hashCode), posts.hashCode));
   }
 
   @override
   String toString() {
     return (newBuiltValueToStringHelper('AppState')
           ..add('user', user)
-          ..add('info', info))
+          ..add('info', info)
+          ..add('posts', posts))
         .toString();
   }
 }
@@ -110,12 +131,17 @@ class AppStateBuilder implements Builder<AppState, AppStateBuilder> {
       _$this._info ??= new RegistrationInfoBuilder();
   set info(RegistrationInfoBuilder info) => _$this._info = info;
 
+  ListBuilder<Post> _posts;
+  ListBuilder<Post> get posts => _$this._posts ??= new ListBuilder<Post>();
+  set posts(ListBuilder<Post> posts) => _$this._posts = posts;
+
   AppStateBuilder();
 
   AppStateBuilder get _$this {
     if (_$v != null) {
       _user = _$v.user?.toBuilder();
       _info = _$v.info?.toBuilder();
+      _posts = _$v.posts?.toBuilder();
       _$v = null;
     }
     return this;
@@ -138,8 +164,9 @@ class AppStateBuilder implements Builder<AppState, AppStateBuilder> {
   _$AppState build() {
     _$AppState _$result;
     try {
-      _$result =
-          _$v ?? new _$AppState._(user: _user?.build(), info: _info?.build());
+      _$result = _$v ??
+          new _$AppState._(
+              user: _user?.build(), info: _info?.build(), posts: posts.build());
     } catch (_) {
       String _$failedField;
       try {
@@ -147,6 +174,8 @@ class AppStateBuilder implements Builder<AppState, AppStateBuilder> {
         _user?.build();
         _$failedField = 'info';
         _info?.build();
+        _$failedField = 'posts';
+        posts.build();
       } catch (e) {
         throw new BuiltValueNestedFieldError(
             'AppState', _$failedField, e.toString());

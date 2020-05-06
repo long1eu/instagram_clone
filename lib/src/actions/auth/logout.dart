@@ -2,8 +2,8 @@
 // Lung Razvan <long1eu>
 // on 16/04/2020
 
-
 library logout;
+
 import 'package:built_value/built_value.dart';
 import 'package:instagram_clone/src/actions/actions.dart';
 

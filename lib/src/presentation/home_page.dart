@@ -4,7 +4,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:instagram_clone/src/actions/logout.dart';
+import 'package:instagram_clone/src/actions/auth/logout.dart';
 import 'package:instagram_clone/src/models/app_state.dart';
 
 import 'add_post_page.dart';
