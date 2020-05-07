@@ -6,6 +6,11 @@ import 'dart:io';
 
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_redux/flutter_redux.dart';
+import 'package:instagram_clone/src/actions/posts/update_post_info.dart';
+import 'package:instagram_clone/src/containers/save_post_info_container.dart';
+import 'package:instagram_clone/src/models/app_state.dart';
+import 'package:instagram_clone/src/models/save_post_info.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:uuid/uuid.dart';
 
@@ -18,8 +23,11 @@ class AddPostPage extends StatefulWidget {
 
 class _AddPostPageState extends State<AddPostPage> with SingleTickerProviderStateMixin {
   TabController tabController;
-
   CameraController controller;
+
+  bool isTakingPhoto = false;
+  List<CameraDescription> cameras;
+  CameraDescription selectedCamera;
 
   @override
   void initState() {
@@ -30,15 +38,22 @@ class _AddPostPageState extends State<AddPostPage> with SingleTickerProviderStat
   }
 
   Future<void> initCamera() async {
-    final List<CameraDescription> cameras = await availableCameras();
+    cameras = await availableCameras();
+    selectedCamera = cameras[0];
+    await initializeCameraController();
+  }
 
-    final CameraDescription camera =
-        cameras.firstWhere((CameraDescription element) => element.lensDirection == CameraLensDirection.back);
-
-    final CameraController cameraController = CameraController(camera, ResolutionPreset.medium);
+  Future<void> initializeCameraController() async {
+    final CameraController cameraController = CameraController(selectedCamera, ResolutionPreset.medium);
     await cameraController.initialize();
 
-    setState(() => this.controller = cameraController);
+    setState(() => controller = cameraController);
+  }
+
+  @override
+  void dispose() {
+    controller?.dispose();
+    super.dispose();
   }
 
   @override
@@ -51,6 +66,7 @@ class _AddPostPageState extends State<AddPostPage> with SingleTickerProviderStat
       ),
       backgroundColor: Colors.black,
       body: Column(
+        mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           Stack(
             children: <Widget>[
@@ -68,51 +84,85 @@ class _AddPostPageState extends State<AddPostPage> with SingleTickerProviderStat
                     ),
                   ),
                 ),
-              Container(
-                alignment: AlignmentDirectional.bottomStart,
-                child: IconButton(
-                  icon: const Icon(Icons.refresh),
-                  onPressed: () {},
+              if (cameras != null && cameras.length != 1)
+                Container(
+                  alignment: AlignmentDirectional.bottomStart,
+                  child: IconButton(
+                    icon: Container(
+                      color: Colors.black54,
+                      child: const Icon(Icons.refresh),
+                    ),
+                    onPressed: () {
+                      if (selectedCamera.lensDirection == CameraLensDirection.back) {
+                        selectedCamera = cameras.firstWhere(
+                            (CameraDescription element) => element.lensDirection == CameraLensDirection.front);
+                      } else {
+                        selectedCamera = cameras.firstWhere(
+                            (CameraDescription element) => element.lensDirection == CameraLensDirection.back);
+                      }
+
+                      initializeCameraController();
+                    },
+                  ),
                 ),
-              ),
               Container(
                 alignment: AlignmentDirectional.bottomEnd,
                 child: IconButton(
-                  icon: const Icon(Icons.flash_off),
+                  icon: Container(
+                    color: Colors.black54,
+                    child: const Icon(Icons.flash_off),
+                  ),
                   onPressed: () {},
                 ),
               ),
             ],
           ),
           Flexible(
-            child: Container(
-              color: Colors.black,
-              alignment: AlignmentDirectional.center,
-              constraints: const BoxConstraints.expand(),
-              child: GestureDetector(
-                onTap: () async {
-                  final Directory directory = await getApplicationDocumentsDirectory();
-                  final String path = '${directory.path}/images/${Uuid().v4()}.jpg';
-                  await controller.takePicture(path);
-                },
-                child: Container(
-                  width: 96.0,
-                  height: 96.0,
+            child: SavePostInfoContainer(
+              builder: (BuildContext context, SavePostInfo info) {
+                return Container(
+                  color: Colors.black,
                   alignment: AlignmentDirectional.center,
-                  decoration: const BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Colors.white70,
-                  ),
-                  child: Container(
-                    width: 64.0,
-                    height: 64.0,
-                    decoration: const BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: Colors.white,
+                  constraints: const BoxConstraints.expand(),
+                  child: InkWell(
+                    onTap: () async {
+                      if (isTakingPhoto) {
+                        return;
+                      }
+
+                      setState(() => isTakingPhoto = true);
+                      final Directory directory = await getTemporaryDirectory();
+                      final String path = '${directory.path}/${Uuid().v4()}.jpg';
+                      await controller.takePicture(path);
+                      setState(() => isTakingPhoto = false);
+
+                      info ??= SavePostInfo();
+                      info = info.rebuild((SavePostInfoBuilder b) => b.pictures.add(path));
+                      StoreProvider.of<AppState>(context).dispatch(UpdatePostInfo(info));
+
+                      Navigator.pushNamed(context, '/postDetails');
+                    },
+                    child: Container(
+                      width: 96.0,
+                      height: 96.0,
+                      alignment: AlignmentDirectional.center,
+                      decoration: const BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Colors.white70,
+                      ),
+                      child: Container(
+                        width: 64.0,
+                        height: 64.0,
+                        decoration: const BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: Colors.white,
+                        ),
+                        child: isTakingPhoto ? const CircularProgressIndicator() : null,
+                      ),
                     ),
                   ),
-                ),
-              ),
+                );
+              },
             ),
           ),
         ],

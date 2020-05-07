@@ -52,8 +52,6 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
       bottomNavigationBar: BottomNavigationBar(
         onTap: (int index) {
           if (index == 2) {
-            print('show post dialog');
-
             Navigator.push(
               context,
               MaterialPageRoute<void>(

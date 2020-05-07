@@ -11,9 +11,13 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(AppUser.serializer)
       ..add(Post.serializer)
       ..add(RegistrationInfo.serializer)
+      ..add(SavePostInfo.serializer)
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(Post)]),
           () => new ListBuilder<Post>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(String)]),
+          () => new ListBuilder<String>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(String)]),
           () => new ListBuilder<String>()))

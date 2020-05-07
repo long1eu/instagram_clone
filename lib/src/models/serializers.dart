@@ -11,6 +11,7 @@ import 'package:instagram_clone/src/models/app_state.dart';
 import 'package:instagram_clone/src/models/app_user.dart';
 import 'package:instagram_clone/src/models/post.dart';
 import 'package:instagram_clone/src/models/registration_info.dart';
+import 'package:instagram_clone/src/models/save_post_info.dart';
 
 part 'serializers.g.dart';
 
@@ -19,6 +20,7 @@ part 'serializers.g.dart';
   AppUser,
   RegistrationInfo,
   Post,
+  SavePostInfo,
 ])
 Serializers serializers = (_$serializers.toBuilder() //
       ..addPlugin(StandardJsonPlugin()))

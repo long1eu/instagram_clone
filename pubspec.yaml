@@ -24,6 +24,7 @@ dependencies:
   camera: ^0.5.7+4
   path_provider: ^1.6.7
   uuid: ^2.0.4
+  firebase_storage: ^3.1.5
 
 dev_dependencies:
   flutter_test:

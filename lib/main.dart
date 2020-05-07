@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_redux/flutter_redux.dart';
@@ -12,6 +13,7 @@ import 'package:instagram_clone/src/presentation/forgot_password.dart';
 import 'package:instagram_clone/src/presentation/home.dart';
 import 'package:instagram_clone/src/presentation/home_page.dart';
 import 'package:instagram_clone/src/presentation/login_page.dart';
+import 'package:instagram_clone/src/presentation/post_details.dart';
 import 'package:instagram_clone/src/presentation/sign_up/signup_page.dart';
 import 'package:instagram_clone/src/reducer/reducer.dart';
 import 'package:intl/date_symbol_data_local.dart';
@@ -20,7 +22,7 @@ import 'package:redux/redux.dart';
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   final AuthApi authApi = AuthApi(auth: FirebaseAuth.instance, firestore: Firestore.instance);
-  final PostApi postApi = PostApi(firestore: Firestore.instance);
+  final PostApi postApi = PostApi(firestore: Firestore.instance, storage: FirebaseStorage.instance);
   final AppMiddleware middleware = AppMiddleware(authApi: authApi, postApi: postApi);
 
   final Store<AppState> store = Store<AppState>(
@@ -60,6 +62,7 @@ class InstagramClone extends StatelessWidget {
           '/signUp': (_) => const SignUpPage(),
           '/home': (_) => const HomePage(),
           '/forgotPassword': (_) => const ForgotPassword(),
+          '/postDetails': (_) => const PostDetails(),
         },
       ),
     );

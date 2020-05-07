@@ -27,8 +27,8 @@ class PostMiddleware {
     try {
       final Post post = await postApi.createPost(
         uid: store.state.user.uid,
-        description: action.description,
-        pictures: action.pictures.toList(),
+        description: store.state.savePostInfo.description,
+        pictures: store.state.savePostInfo.pictures.toList(),
       );
 
       final CreatePostSuccessful _result = CreatePostSuccessful(post);

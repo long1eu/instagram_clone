@@ -24,7 +24,7 @@ abstract class Post implements Built<Post, PostBuilder> {
         ..id = id
         ..uid = uid
         ..description = description
-        ..createdAt = DateTime.now()
+        ..createdAt = DateTime.now().toUtc()
         ..likes = 0
         ..pictures = ListBuilder<String>(pictures);
     });

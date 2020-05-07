@@ -8,22 +8,12 @@ part of create_post;
 
 class _$CreatePost extends CreatePost {
   @override
-  final String description;
-  @override
-  final BuiltList<String> pictures;
-  @override
   final ActionResult result;
 
   factory _$CreatePost([void Function(CreatePostBuilder) updates]) =>
       (new CreatePostBuilder()..update(updates)).build();
 
-  _$CreatePost._({this.description, this.pictures, this.result}) : super._() {
-    if (description == null) {
-      throw new BuiltValueNullFieldError('CreatePost', 'description');
-    }
-    if (pictures == null) {
-      throw new BuiltValueNullFieldError('CreatePost', 'pictures');
-    }
+  _$CreatePost._({this.result}) : super._() {
     if (result == null) {
       throw new BuiltValueNullFieldError('CreatePost', 'result');
     }
@@ -40,39 +30,23 @@ class _$CreatePost extends CreatePost {
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
     final dynamic _$dynamicOther = other;
-    return other is CreatePost &&
-        description == other.description &&
-        pictures == other.pictures &&
-        result == _$dynamicOther.result;
+    return other is CreatePost && result == _$dynamicOther.result;
   }
 
   @override
   int get hashCode {
-    return $jf($jc(
-        $jc($jc(0, description.hashCode), pictures.hashCode), result.hashCode));
+    return $jf($jc(0, result.hashCode));
   }
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper('CreatePost')
-          ..add('description', description)
-          ..add('pictures', pictures)
-          ..add('result', result))
+    return (newBuiltValueToStringHelper('CreatePost')..add('result', result))
         .toString();
   }
 }
 
 class CreatePostBuilder implements Builder<CreatePost, CreatePostBuilder> {
   _$CreatePost _$v;
-
-  String _description;
-  String get description => _$this._description;
-  set description(String description) => _$this._description = description;
-
-  ListBuilder<String> _pictures;
-  ListBuilder<String> get pictures =>
-      _$this._pictures ??= new ListBuilder<String>();
-  set pictures(ListBuilder<String> pictures) => _$this._pictures = pictures;
 
   ActionResult _result;
   ActionResult get result => _$this._result;
@@ -82,8 +56,6 @@ class CreatePostBuilder implements Builder<CreatePost, CreatePostBuilder> {
 
   CreatePostBuilder get _$this {
     if (_$v != null) {
-      _description = _$v.description;
-      _pictures = _$v.pictures?.toBuilder();
       _result = _$v.result;
       _$v = null;
     }
@@ -105,24 +77,7 @@ class CreatePostBuilder implements Builder<CreatePost, CreatePostBuilder> {
 
   @override
   _$CreatePost build() {
-    _$CreatePost _$result;
-    try {
-      _$result = _$v ??
-          new _$CreatePost._(
-              description: description,
-              pictures: pictures.build(),
-              result: result);
-    } catch (_) {
-      String _$failedField;
-      try {
-        _$failedField = 'pictures';
-        pictures.build();
-      } catch (e) {
-        throw new BuiltValueNestedFieldError(
-            'CreatePost', _$failedField, e.toString());
-      }
-      rethrow;
-    }
+    final _$result = _$v ?? new _$CreatePost._(result: result);
     replace(_$result);
     return _$result;
   }
