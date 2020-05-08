@@ -25,7 +25,7 @@ class PostMiddleware {
     next(action);
 
     try {
-      final Post post = await postApi.createPost(
+      final Post post = await postApi.create(
         uid: store.state.user.uid,
         description: store.state.savePostInfo.description,
         pictures: store.state.savePostInfo.pictures.toList(),
