@@ -511,6 +511,20 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "4.0.0"
+  redux_epics:
+    dependency: "direct main"
+    description:
+      name: redux_epics
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.13.0"
+  rxdart:
+    dependency: "direct main"
+    description:
+      name: rxdart
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.24.0"
   shelf:
     dependency: transitive
     description:

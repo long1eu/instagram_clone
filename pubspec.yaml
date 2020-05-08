@@ -25,6 +25,11 @@ dependencies:
   path_provider: ^1.6.7
   uuid: ^2.0.4
   firebase_storage: ^3.1.5
+  redux_epics: ^0.13.0
+  rxdart: ^0.24.0
+
+dependency_overrides:
+  rxdart: ^0.24.0
 
 dev_dependencies:
   flutter_test:
