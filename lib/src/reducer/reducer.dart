@@ -17,7 +17,7 @@ AppState reducer(AppState state, dynamic action) {
       print('stackTrace: ${error.stackTrace}');
     } catch (_) {}
   }
-  print('$action => $result');
+  print(action);
   return result;
 }
 

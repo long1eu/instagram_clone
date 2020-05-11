@@ -11,7 +11,7 @@ import 'package:instagram_clone/src/epics/app_epics.dart';
 import 'package:instagram_clone/src/models/app_state.dart';
 import 'package:instagram_clone/src/presentation/forgot_password.dart';
 import 'package:instagram_clone/src/presentation/home.dart';
-import 'package:instagram_clone/src/presentation/home_page.dart';
+import 'package:instagram_clone/src/presentation/home/home_page.dart';
 import 'package:instagram_clone/src/presentation/login_page.dart';
 import 'package:instagram_clone/src/presentation/post_details.dart';
 import 'package:instagram_clone/src/presentation/sign_up/signup_page.dart';
