@@ -11,14 +11,14 @@ import 'package:instagram_clone/src/models/post.dart';
 import 'package:intl/intl.dart';
 import 'package:redux/redux.dart';
 
-class HomePart extends StatefulWidget {
-  const HomePart({Key key}) : super(key: key);
+class FeedPart extends StatefulWidget {
+  const FeedPart({Key key}) : super(key: key);
 
   @override
-  _HomePartState createState() => _HomePartState();
+  _FeedPartState createState() => _FeedPartState();
 }
 
-class _HomePartState extends State<HomePart> {
+class _FeedPartState extends State<FeedPart> {
   Store<AppState> store;
 
   @override
