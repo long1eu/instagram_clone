@@ -7,8 +7,8 @@ import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:instagram_clone/src/models/app_user.dart';
-import 'package:instagram_clone/src/models/registration_info.dart';
+import 'package:instagram_clone/src/models/auth/app_user.dart';
+import 'package:instagram_clone/src/models/auth/registration_info.dart';
 import 'package:meta/meta.dart';
 
 class AuthApi {

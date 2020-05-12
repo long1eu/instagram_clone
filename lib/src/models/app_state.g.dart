@@ -18,29 +18,17 @@ class _$AppStateSerializer implements StructuredSerializer<AppState> {
   Iterable<Object> serialize(Serializers serializers, AppState object,
       {FullType specifiedType = FullType.unspecified}) {
     final result = <Object>[
+      'auth',
+      serializers.serialize(object.auth,
+          specifiedType: const FullType(AuthState)),
       'posts',
       serializers.serialize(object.posts,
-          specifiedType:
-              const FullType(BuiltList, const [const FullType(Post)])),
+          specifiedType: const FullType(PostsState)),
+      'comments',
+      serializers.serialize(object.comments,
+          specifiedType: const FullType(CommentsState)),
     ];
-    if (object.user != null) {
-      result
-        ..add('user')
-        ..add(serializers.serialize(object.user,
-            specifiedType: const FullType(AppUser)));
-    }
-    if (object.info != null) {
-      result
-        ..add('info')
-        ..add(serializers.serialize(object.info,
-            specifiedType: const FullType(RegistrationInfo)));
-    }
-    if (object.savePostInfo != null) {
-      result
-        ..add('savePostInfo')
-        ..add(serializers.serialize(object.savePostInfo,
-            specifiedType: const FullType(SavePostInfo)));
-    }
+
     return result;
   }
 
@@ -55,24 +43,17 @@ class _$AppStateSerializer implements StructuredSerializer<AppState> {
       iterator.moveNext();
       final dynamic value = iterator.current;
       switch (key) {
-        case 'user':
-          result.user.replace(serializers.deserialize(value,
-              specifiedType: const FullType(AppUser)) as AppUser);
-          break;
-        case 'info':
-          result.info.replace(serializers.deserialize(value,
-                  specifiedType: const FullType(RegistrationInfo))
-              as RegistrationInfo);
+        case 'auth':
+          result.auth.replace(serializers.deserialize(value,
+              specifiedType: const FullType(AuthState)) as AuthState);
           break;
         case 'posts':
           result.posts.replace(serializers.deserialize(value,
-                  specifiedType:
-                      const FullType(BuiltList, const [const FullType(Post)]))
-              as BuiltList<Object>);
+              specifiedType: const FullType(PostsState)) as PostsState);
           break;
-        case 'savePostInfo':
-          result.savePostInfo.replace(serializers.deserialize(value,
-              specifiedType: const FullType(SavePostInfo)) as SavePostInfo);
+        case 'comments':
+          result.comments.replace(serializers.deserialize(value,
+              specifiedType: const FullType(CommentsState)) as CommentsState);
           break;
       }
     }
@@ -83,21 +64,24 @@ class _$AppStateSerializer implements StructuredSerializer<AppState> {
 
 class _$AppState extends AppState {
   @override
-  final AppUser user;
+  final AuthState auth;
   @override
-  final RegistrationInfo info;
+  final PostsState posts;
   @override
-  final BuiltList<Post> posts;
-  @override
-  final SavePostInfo savePostInfo;
+  final CommentsState comments;
 
   factory _$AppState([void Function(AppStateBuilder) updates]) =>
       (new AppStateBuilder()..update(updates)).build();
 
-  _$AppState._({this.user, this.info, this.posts, this.savePostInfo})
-      : super._() {
+  _$AppState._({this.auth, this.posts, this.comments}) : super._() {
+    if (auth == null) {
+      throw new BuiltValueNullFieldError('AppState', 'auth');
+    }
     if (posts == null) {
       throw new BuiltValueNullFieldError('AppState', 'posts');
+    }
+    if (comments == null) {
+      throw new BuiltValueNullFieldError('AppState', 'comments');
     }
   }
 
@@ -112,26 +96,23 @@ class _$AppState extends AppState {
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
     return other is AppState &&
-        user == other.user &&
-        info == other.info &&
+        auth == other.auth &&
         posts == other.posts &&
-        savePostInfo == other.savePostInfo;
+        comments == other.comments;
   }
 
   @override
   int get hashCode {
-    return $jf($jc(
-        $jc($jc($jc(0, user.hashCode), info.hashCode), posts.hashCode),
-        savePostInfo.hashCode));
+    return $jf(
+        $jc($jc($jc(0, auth.hashCode), posts.hashCode), comments.hashCode));
   }
 
   @override
   String toString() {
     return (newBuiltValueToStringHelper('AppState')
-          ..add('user', user)
-          ..add('info', info)
+          ..add('auth', auth)
           ..add('posts', posts)
-          ..add('savePostInfo', savePostInfo))
+          ..add('comments', comments))
         .toString();
   }
 }
@@ -139,33 +120,26 @@ class _$AppState extends AppState {
 class AppStateBuilder implements Builder<AppState, AppStateBuilder> {
   _$AppState _$v;
 
-  AppUserBuilder _user;
-  AppUserBuilder get user => _$this._user ??= new AppUserBuilder();
-  set user(AppUserBuilder user) => _$this._user = user;
+  AuthStateBuilder _auth;
+  AuthStateBuilder get auth => _$this._auth ??= new AuthStateBuilder();
+  set auth(AuthStateBuilder auth) => _$this._auth = auth;
 
-  RegistrationInfoBuilder _info;
-  RegistrationInfoBuilder get info =>
-      _$this._info ??= new RegistrationInfoBuilder();
-  set info(RegistrationInfoBuilder info) => _$this._info = info;
+  PostsStateBuilder _posts;
+  PostsStateBuilder get posts => _$this._posts ??= new PostsStateBuilder();
+  set posts(PostsStateBuilder posts) => _$this._posts = posts;
 
-  ListBuilder<Post> _posts;
-  ListBuilder<Post> get posts => _$this._posts ??= new ListBuilder<Post>();
-  set posts(ListBuilder<Post> posts) => _$this._posts = posts;
-
-  SavePostInfoBuilder _savePostInfo;
-  SavePostInfoBuilder get savePostInfo =>
-      _$this._savePostInfo ??= new SavePostInfoBuilder();
-  set savePostInfo(SavePostInfoBuilder savePostInfo) =>
-      _$this._savePostInfo = savePostInfo;
+  CommentsStateBuilder _comments;
+  CommentsStateBuilder get comments =>
+      _$this._comments ??= new CommentsStateBuilder();
+  set comments(CommentsStateBuilder comments) => _$this._comments = comments;
 
   AppStateBuilder();
 
   AppStateBuilder get _$this {
     if (_$v != null) {
-      _user = _$v.user?.toBuilder();
-      _info = _$v.info?.toBuilder();
+      _auth = _$v.auth?.toBuilder();
       _posts = _$v.posts?.toBuilder();
-      _savePostInfo = _$v.savePostInfo?.toBuilder();
+      _comments = _$v.comments?.toBuilder();
       _$v = null;
     }
     return this;
@@ -190,21 +164,18 @@ class AppStateBuilder implements Builder<AppState, AppStateBuilder> {
     try {
       _$result = _$v ??
           new _$AppState._(
-              user: _user?.build(),
-              info: _info?.build(),
+              auth: auth.build(),
               posts: posts.build(),
-              savePostInfo: _savePostInfo?.build());
+              comments: comments.build());
     } catch (_) {
       String _$failedField;
       try {
-        _$failedField = 'user';
-        _user?.build();
-        _$failedField = 'info';
-        _info?.build();
+        _$failedField = 'auth';
+        auth.build();
         _$failedField = 'posts';
         posts.build();
-        _$failedField = 'savePostInfo';
-        _savePostInfo?.build();
+        _$failedField = 'comments';
+        comments.build();
       } catch (e) {
         throw new BuiltValueNestedFieldError(
             'AppState', _$failedField, e.toString());

@@ -10,7 +10,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:instagram_clone/src/actions/posts/update_post_info.dart';
 import 'package:instagram_clone/src/containers/save_post_info_container.dart';
 import 'package:instagram_clone/src/models/app_state.dart';
-import 'package:instagram_clone/src/models/save_post_info.dart';
+import 'package:instagram_clone/src/models/posts/save_post_info.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:uuid/uuid.dart';
 

@@ -7,7 +7,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:instagram_clone/src/actions/posts/listen_for_posts.dart';
 import 'package:instagram_clone/src/containers/posts_container.dart';
 import 'package:instagram_clone/src/models/app_state.dart';
-import 'package:instagram_clone/src/models/post.dart';
+import 'package:instagram_clone/src/models/posts/post.dart';
 import 'package:intl/intl.dart';
 import 'package:redux/redux.dart';
 

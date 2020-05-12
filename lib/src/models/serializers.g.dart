@@ -9,9 +9,16 @@ part of serializers;
 Serializers _$serializers = (new Serializers().toBuilder()
       ..add(AppState.serializer)
       ..add(AppUser.serializer)
+      ..add(AuthState.serializer)
+      ..add(Comment.serializer)
+      ..add(CommentsState.serializer)
       ..add(Post.serializer)
+      ..add(PostsState.serializer)
       ..add(RegistrationInfo.serializer)
       ..add(SavePostInfo.serializer)
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(Comment)]),
+          () => new ListBuilder<Comment>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(Post)]),
           () => new ListBuilder<Post>())

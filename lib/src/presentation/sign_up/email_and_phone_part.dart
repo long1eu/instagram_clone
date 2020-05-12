@@ -11,7 +11,7 @@ import 'package:instagram_clone/src/actions/auth/send_sms.dart';
 import 'package:instagram_clone/src/actions/auth/update_registration_info.dart';
 import 'package:instagram_clone/src/containers/registration_info_container.dart';
 import 'package:instagram_clone/src/models/app_state.dart';
-import 'package:instagram_clone/src/models/registration_info.dart';
+import 'package:instagram_clone/src/models/auth/registration_info.dart';
 
 enum RegisterType { email, phone }
 

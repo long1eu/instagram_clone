@@ -5,7 +5,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:instagram_clone/src/models/app_state.dart';
-import 'package:instagram_clone/src/models/registration_info.dart';
+import 'package:instagram_clone/src/models/auth/registration_info.dart';
 import 'package:redux/redux.dart';
 
 class RegistrationInfoContainer extends StatelessWidget {
@@ -16,7 +16,7 @@ class RegistrationInfoContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, RegistrationInfo>(
-      converter: (Store<AppState> store) => store.state.info,
+      converter: (Store<AppState> store) => store.state.auth.info,
       builder: builder,
     );
   }

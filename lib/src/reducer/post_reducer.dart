@@ -5,30 +5,29 @@
 import 'package:instagram_clone/src/actions/posts/create_post.dart';
 import 'package:instagram_clone/src/actions/posts/listen_for_posts.dart';
 import 'package:instagram_clone/src/actions/posts/update_post_info.dart';
-import 'package:instagram_clone/src/models/app_state.dart';
+import 'package:instagram_clone/src/models/posts/posts_state.dart';
 import 'package:redux/redux.dart';
 
-Reducer<AppState> postReducer = combineReducers<AppState>(<Reducer<AppState>>[
-  TypedReducer<AppState, CreatePostSuccessful>(_createPostSuccessful),
-  TypedReducer<AppState, UpdatePostInfo>(_updatePostInfo),
-  TypedReducer<AppState, OnPostsEvent>(_onPostsEvent),
+Reducer<PostsState> postReducer = combineReducers<PostsState>(<Reducer<PostsState>>[
+  TypedReducer<PostsState, CreatePostSuccessful>(_createPostSuccessful),
+  TypedReducer<PostsState, UpdatePostInfo>(_updatePostInfo),
+  TypedReducer<PostsState, OnPostsEvent>(_onPostsEvent),
 ]);
 
-AppState _createPostSuccessful(AppState state, CreatePostSuccessful action) {
-  return state.rebuild((AppStateBuilder b) {
+PostsState _createPostSuccessful(PostsState state, CreatePostSuccessful action) {
+  return state.rebuild((PostsStateBuilder b) {
     b
       ..posts.add(action.post)
       ..savePostInfo = null;
   });
 }
 
-AppState _updatePostInfo(AppState state, UpdatePostInfo action) {
-  return state.rebuild((AppStateBuilder b) => b.savePostInfo = action.info.toBuilder());
+PostsState _updatePostInfo(PostsState state, UpdatePostInfo action) {
+  return state.rebuild((PostsStateBuilder b) => b.savePostInfo = action.info.toBuilder());
 }
 
-AppState _onPostsEvent(AppState state, OnPostsEvent action) {
-  return state.rebuild((AppStateBuilder b) {
-    b.posts.clear();
+PostsState _onPostsEvent(PostsState state, OnPostsEvent action) {
+  return state.rebuild((PostsStateBuilder b) {
     b.posts = action.posts.toBuilder();
   });
 }

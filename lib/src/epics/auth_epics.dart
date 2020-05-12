@@ -12,7 +12,7 @@ import 'package:instagram_clone/src/actions/auth/send_sms.dart';
 import 'package:instagram_clone/src/actions/auth/signup.dart';
 import 'package:instagram_clone/src/data/auth_api.dart';
 import 'package:instagram_clone/src/models/app_state.dart';
-import 'package:instagram_clone/src/models/app_user.dart';
+import 'package:instagram_clone/src/models/auth/app_user.dart';
 import 'package:meta/meta.dart';
 import 'package:redux_epics/redux_epics.dart';
 import 'package:rxdart/rxdart.dart';
@@ -65,7 +65,7 @@ class AuthEpics {
   Stream<AppAction> _signUp(Stream<SignUp> actions, EpicStore<AppState> store) {
     return actions //
         .flatMap((SignUp action) => _authApi
-            .signUp(store.state.info)
+            .signUp(store.state.auth.info)
             .asStream()
             .map<AppAction>((AppUser user) => SignUpSuccessful(user))
             .onErrorReturnWith((dynamic error) => SignUpError(error))
@@ -75,7 +75,7 @@ class AuthEpics {
   Stream<AppAction> _reserveUsername(Stream<ReserveUsername> actions, EpicStore<AppState> store) {
     return actions //
         .flatMap((ReserveUsername action) => _authApi
-            .reserveUsername(email: store.state.info.email, displayName: store.state.info.displayName)
+            .reserveUsername(email: store.state.auth.info.email, displayName: store.state.auth.info.displayName)
             .asStream()
             .map<AppAction>((String username) => ReserveUsernameSuccessful(username))
             .onErrorReturnWith((dynamic error) => ReserveUsernameError(error)));
@@ -84,7 +84,7 @@ class AuthEpics {
   Stream<AppAction> _sendSms(Stream<SendSms> actions, EpicStore<AppState> store) {
     return actions //
         .flatMap((SendSms action) => _authApi
-            .sendSms(store.state.info.phone)
+            .sendSms(store.state.auth.info.phone)
             .asStream()
             .map<AppAction>((String verificationId) => SendSmsSuccessful(verificationId))
             .onErrorReturnWith((dynamic error) => SendSmsError(error))

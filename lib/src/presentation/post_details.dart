@@ -8,7 +8,7 @@ import 'package:instagram_clone/src/actions/posts/create_post.dart';
 import 'package:instagram_clone/src/actions/posts/update_post_info.dart';
 import 'package:instagram_clone/src/containers/save_post_info_container.dart';
 import 'package:instagram_clone/src/models/app_state.dart';
-import 'package:instagram_clone/src/models/save_post_info.dart';
+import 'package:instagram_clone/src/models/posts/save_post_info.dart';
 
 class PostDetails extends StatefulWidget {
   const PostDetails({Key key}) : super(key: key);

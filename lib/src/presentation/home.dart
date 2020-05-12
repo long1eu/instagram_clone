@@ -4,7 +4,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:instagram_clone/src/containers/user_container.dart';
-import 'package:instagram_clone/src/models/app_user.dart';
+import 'package:instagram_clone/src/models/auth/app_user.dart';
 import 'package:instagram_clone/src/presentation/home/home_page.dart';
 import 'package:instagram_clone/src/presentation/login_page.dart';
 

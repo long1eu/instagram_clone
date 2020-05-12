@@ -4,15 +4,12 @@
 
 library app_state;
 
-import 'package:built_collection/built_collection.dart';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
-import 'package:instagram_clone/src/models/post.dart';
-import 'package:instagram_clone/src/models/save_post_info.dart';
+import 'package:instagram_clone/src/models/auth/auth_state.dart';
+import 'package:instagram_clone/src/models/comments/comments_state.dart';
+import 'package:instagram_clone/src/models/posts/posts_state.dart';
 import 'package:instagram_clone/src/models/serializers.dart';
-
-import 'app_user.dart';
-import 'registration_info.dart';
 
 part 'app_state.g.dart';
 
@@ -23,16 +20,13 @@ abstract class AppState implements Built<AppState, AppStateBuilder> {
 
   AppState._();
 
-  @nullable
-  AppUser get user;
+  AuthState get auth;
 
-  @nullable
-  RegistrationInfo get info;
+  PostsState get posts;
 
-  BuiltList<Post> get posts;
+  CommentsState get comments;
 
-  @nullable
-  SavePostInfo get savePostInfo;
+  // Chat
 
   Map<String, dynamic> get json => serializers.serializeWith(serializer, this);
 

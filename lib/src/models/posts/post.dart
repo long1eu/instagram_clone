@@ -12,7 +12,7 @@ import 'package:meta/meta.dart';
 
 part 'post.g.dart';
 
-abstract class Post implements Built<Post, PostBuilder> {
+abstract class Post implements Built<Post, PostBuilder>, Comparable<Post> {
   factory Post({
     @required String id,
     @required String uid,
@@ -45,6 +45,11 @@ abstract class Post implements Built<Post, PostBuilder> {
   int get likes;
 
   BuiltList<String> get pictures;
+
+  @override
+  int compareTo(Post other) {
+    return other.createdAt.compareTo(createdAt);
+  }
 
   Map<String, dynamic> get json => serializers.serializeWith(serializer, this);
 

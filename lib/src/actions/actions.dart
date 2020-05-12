@@ -2,7 +2,7 @@
 // Lung Razvan <long1eu>
 // on 30/04/2020
 
-import 'package:instagram_clone/src/models/app_user.dart';
+import 'package:instagram_clone/src/models/auth/app_user.dart';
 
 abstract class AppAction {}
 

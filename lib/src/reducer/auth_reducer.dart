@@ -7,33 +7,33 @@ import 'package:instagram_clone/src/actions/auth/logout.dart';
 import 'package:instagram_clone/src/actions/auth/reserve_username.dart';
 import 'package:instagram_clone/src/actions/auth/send_sms.dart';
 import 'package:instagram_clone/src/actions/auth/update_registration_info.dart';
-import 'package:instagram_clone/src/models/app_state.dart';
+import 'package:instagram_clone/src/models/auth/auth_state.dart';
 import 'package:redux/redux.dart';
 
-Reducer<AppState> authReducer = combineReducers<AppState>(<Reducer<AppState>>[
-  TypedReducer<AppState, UserAction>(_userAction),
-  TypedReducer<AppState, LogoutSuccessful>(_logoutSuccessful),
-  TypedReducer<AppState, UpdateRegistrationInfo>(_updateRegistrationInfo),
-  TypedReducer<AppState, ReserveUsernameSuccessful>(_reserveUsernameSuccessful),
-  TypedReducer<AppState, SendSmsSuccessful>(_sendSmsSuccessful),
+Reducer<AuthState> authReducer = combineReducers<AuthState>(<Reducer<AuthState>>[
+  TypedReducer<AuthState, UserAction>(_userAction),
+  TypedReducer<AuthState, LogoutSuccessful>(_logoutSuccessful),
+  TypedReducer<AuthState, UpdateRegistrationInfo>(_updateRegistrationInfo),
+  TypedReducer<AuthState, ReserveUsernameSuccessful>(_reserveUsernameSuccessful),
+  TypedReducer<AuthState, SendSmsSuccessful>(_sendSmsSuccessful),
 ]);
 
-AppState _userAction(AppState state, UserAction action) {
-  return state.rebuild((AppStateBuilder b) => b.user = action.user?.toBuilder());
+AuthState _userAction(AuthState state, UserAction action) {
+  return state.rebuild((AuthStateBuilder b) => b.user = action.user?.toBuilder());
 }
 
-AppState _logoutSuccessful(AppState state, LogoutSuccessful action) {
-  return AppState();
+AuthState _logoutSuccessful(AuthState state, LogoutSuccessful action) {
+  return AuthState();
 }
 
-AppState _updateRegistrationInfo(AppState state, UpdateRegistrationInfo action) {
-  return state.rebuild((AppStateBuilder b) => b.info = action.info.toBuilder());
+AuthState _updateRegistrationInfo(AuthState state, UpdateRegistrationInfo action) {
+  return state.rebuild((AuthStateBuilder b) => b.info = action.info.toBuilder());
 }
 
-AppState _reserveUsernameSuccessful(AppState state, ReserveUsernameSuccessful action) {
-  return state.rebuild((AppStateBuilder b) => b.info.username = action.username);
+AuthState _reserveUsernameSuccessful(AuthState state, ReserveUsernameSuccessful action) {
+  return state.rebuild((AuthStateBuilder b) => b.info.username = action.username);
 }
 
-AppState _sendSmsSuccessful(AppState state, SendSmsSuccessful action) {
-  return state.rebuild((AppStateBuilder b) => b.info.verificationId = action.verificationId);
+AuthState _sendSmsSuccessful(AuthState state, SendSmsSuccessful action) {
+  return state.rebuild((AuthStateBuilder b) => b.info.verificationId = action.verificationId);
 }

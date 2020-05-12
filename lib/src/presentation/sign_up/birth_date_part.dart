@@ -11,7 +11,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:instagram_clone/src/actions/auth/update_registration_info.dart';
 import 'package:instagram_clone/src/containers/registration_info_container.dart';
 import 'package:instagram_clone/src/models/app_state.dart';
-import 'package:instagram_clone/src/models/registration_info.dart';
+import 'package:instagram_clone/src/models/auth/registration_info.dart';
 import 'package:intl/intl.dart';
 
 class BirthDatePart extends StatelessWidget {

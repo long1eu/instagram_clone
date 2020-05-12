@@ -6,6 +6,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:instagram_clone/src/actions/initialize_app.dart';
 import 'package:instagram_clone/src/data/auth_api.dart';
+import 'package:instagram_clone/src/data/comments_api.dart';
 import 'package:instagram_clone/src/data/post_api.dart';
 import 'package:instagram_clone/src/epics/app_epics.dart';
 import 'package:instagram_clone/src/models/app_state.dart';
@@ -24,7 +25,8 @@ void main() {
   WidgetsFlutterBinding.ensureInitialized();
   final AuthApi authApi = AuthApi(auth: FirebaseAuth.instance, firestore: Firestore.instance);
   final PostApi postApi = PostApi(firestore: Firestore.instance, storage: FirebaseStorage.instance);
-  final AppEpics epics = AppEpics(authApi: authApi, postApi: postApi);
+  final CommentsApi commentsApi = CommentsApi(firestore: Firestore.instance);
+  final AppEpics epics = AppEpics(authApi: authApi, postApi: postApi, commentsApi: commentsApi);
 
   final Store<AppState> store = Store<AppState>(
     reducer,

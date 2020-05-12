@@ -12,7 +12,7 @@ library listen_for_posts;
 import 'package:built_collection/built_collection.dart';
 import 'package:built_value/built_value.dart';
 import 'package:instagram_clone/src/actions/actions.dart';
-import 'package:instagram_clone/src/models/post.dart';
+import 'package:instagram_clone/src/models/posts/post.dart';
 
 part 'listen_for_posts.g.dart';
 
