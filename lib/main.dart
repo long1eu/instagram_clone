@@ -10,6 +10,7 @@ import 'package:instagram_clone/src/data/comments_api.dart';
 import 'package:instagram_clone/src/data/post_api.dart';
 import 'package:instagram_clone/src/epics/app_epics.dart';
 import 'package:instagram_clone/src/models/app_state.dart';
+import 'package:instagram_clone/src/presentation/comments/comments_page.dart';
 import 'package:instagram_clone/src/presentation/forgot_password.dart';
 import 'package:instagram_clone/src/presentation/home.dart';
 import 'package:instagram_clone/src/presentation/home/home_page.dart';
@@ -68,6 +69,7 @@ class InstagramClone extends StatelessWidget {
           '/home': (_) => const HomePage(),
           '/forgotPassword': (_) => const ForgotPassword(),
           '/postDetails': (_) => const PostDetails(),
+          '/commentsPage': (_) => const CommentsPage(),
         },
       ),
     );

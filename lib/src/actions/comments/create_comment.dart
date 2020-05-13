@@ -15,15 +15,19 @@ abstract class CreateComment //
         Built<CreateComment, CreateCommentBuilder>,
         AppAction //
 {
-  factory CreateComment(String text) {
+  factory CreateComment(String text, ActionResult result) {
     return _$CreateComment((CreateCommentBuilder b) {
-      b.text = text;
+      b
+        ..text = text
+        ..result = result;
     });
   }
 
   CreateComment._();
 
   String get text;
+
+  ActionResult get result;
 }
 
 abstract class CreateCommentSuccessful //

@@ -5,6 +5,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:instagram_clone/src/actions/posts/listen_for_posts.dart';
+import 'package:instagram_clone/src/actions/posts/set.dart';
 import 'package:instagram_clone/src/containers/posts_container.dart';
 import 'package:instagram_clone/src/models/app_state.dart';
 import 'package:instagram_clone/src/models/posts/post.dart';
@@ -75,7 +76,10 @@ class _FeedPartState extends State<FeedPart> {
                       ),
                       IconButton(
                         icon: const Icon(Icons.chat_bubble_outline),
-                        onPressed: () {},
+                        onPressed: () {
+                          StoreProvider.of<AppState>(context).dispatch(SetSelectedPost(post.id));
+                          Navigator.pushNamed(context, '/commentsPage');
+                        },
                       ),
                       IconButton(
                         icon: const Icon(Icons.send),

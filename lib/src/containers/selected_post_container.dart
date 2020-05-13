@@ -8,15 +8,17 @@ import 'package:instagram_clone/src/models/app_state.dart';
 import 'package:instagram_clone/src/models/posts/post.dart';
 import 'package:redux/redux.dart';
 
-class PostsContainer extends StatelessWidget {
-  const PostsContainer({Key key, @required this.builder}) : super(key: key);
+class SelectedPostContainer extends StatelessWidget {
+  const SelectedPostContainer({Key key, @required this.builder}) : super(key: key);
 
-  final ViewModelBuilder<List<Post>> builder;
+  final ViewModelBuilder<Post> builder;
 
   @override
   Widget build(BuildContext context) {
-    return StoreConnector<AppState, List<Post>>(
-      converter: (Store<AppState> store) => store.state.posts.posts.values.toList(),
+    return StoreConnector<AppState, Post>(
+      converter: (Store<AppState> store) {
+        return store.state.posts.posts[store.state.posts.selectedPostId];
+      },
       builder: builder,
     );
   }

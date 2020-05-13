@@ -20,8 +20,8 @@ class _$PostsStateSerializer implements StructuredSerializer<PostsState> {
     final result = <Object>[
       'posts',
       serializers.serialize(object.posts,
-          specifiedType:
-              const FullType(BuiltList, const [const FullType(Post)])),
+          specifiedType: const FullType(
+              BuiltMap, const [const FullType(String), const FullType(Post)])),
     ];
     if (object.savePostInfo != null) {
       result
@@ -51,9 +51,8 @@ class _$PostsStateSerializer implements StructuredSerializer<PostsState> {
       switch (key) {
         case 'posts':
           result.posts.replace(serializers.deserialize(value,
-                  specifiedType:
-                      const FullType(BuiltList, const [const FullType(Post)]))
-              as BuiltList<Object>);
+              specifiedType: const FullType(BuiltMap,
+                  const [const FullType(String), const FullType(Post)])));
           break;
         case 'savePostInfo':
           result.savePostInfo.replace(serializers.deserialize(value,
@@ -72,7 +71,7 @@ class _$PostsStateSerializer implements StructuredSerializer<PostsState> {
 
 class _$PostsState extends PostsState {
   @override
-  final BuiltList<Post> posts;
+  final BuiltMap<String, Post> posts;
   @override
   final SavePostInfo savePostInfo;
   @override
@@ -123,9 +122,10 @@ class _$PostsState extends PostsState {
 class PostsStateBuilder implements Builder<PostsState, PostsStateBuilder> {
   _$PostsState _$v;
 
-  ListBuilder<Post> _posts;
-  ListBuilder<Post> get posts => _$this._posts ??= new ListBuilder<Post>();
-  set posts(ListBuilder<Post> posts) => _$this._posts = posts;
+  MapBuilder<String, Post> _posts;
+  MapBuilder<String, Post> get posts =>
+      _$this._posts ??= new MapBuilder<String, Post>();
+  set posts(MapBuilder<String, Post> posts) => _$this._posts = posts;
 
   SavePostInfoBuilder _savePostInfo;
   SavePostInfoBuilder get savePostInfo =>

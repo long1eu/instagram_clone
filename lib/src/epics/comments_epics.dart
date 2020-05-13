@@ -35,6 +35,7 @@ class CommentsEpics {
             )
             .asStream()
             .map<AppAction>((Comment comment) => CreateCommentSuccessful(comment))
-            .onErrorReturnWith((dynamic error) => CreateCommentError(error)));
+            .onErrorReturnWith((dynamic error) => CreateCommentError(error))
+            .doOnData(action.result));
   }
 }
