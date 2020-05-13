@@ -5,11 +5,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:instagram_clone/src/actions/comments/create_comment.dart';
+import 'package:instagram_clone/src/actions/comments/listen_for_comments.dart';
 import 'package:instagram_clone/src/containers/comments_container.dart';
 import 'package:instagram_clone/src/containers/selected_post_container.dart';
 import 'package:instagram_clone/src/models/app_state.dart';
 import 'package:instagram_clone/src/models/comments/comment.dart';
 import 'package:instagram_clone/src/models/posts/post.dart';
+import 'package:redux/redux.dart';
 
 class CommentsPage extends StatefulWidget {
   const CommentsPage({Key key}) : super(key: key);
@@ -20,6 +22,17 @@ class CommentsPage extends StatefulWidget {
 
 class _CommentsPageState extends State<CommentsPage> {
   final TextEditingController controller = TextEditingController();
+  Store<AppState> store;
+
+  @override
+  void initState() {
+    super.initState();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      store = StoreProvider.of<AppState>(context);
+      store.dispatch(ListenForComments());
+    });
+  }
 
   void _result(dynamic action) {
     if (action is CreateCommentSuccessful) {
@@ -27,6 +40,12 @@ class _CommentsPageState extends State<CommentsPage> {
     } else {
       // todo: show error
     }
+  }
+
+  @override
+  void dispose() {
+    store.dispatch(StopListenForComments());
+    super.dispose();
   }
 
   @override

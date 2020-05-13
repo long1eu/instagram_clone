@@ -11,7 +11,7 @@ import 'package:meta/meta.dart';
 
 part 'comment.g.dart';
 
-abstract class Comment implements Built<Comment, CommentBuilder> {
+abstract class Comment implements Built<Comment, CommentBuilder>, Comparable<Comment> {
   factory Comment({
     @required String id,
     @required String postId,
@@ -41,6 +41,11 @@ abstract class Comment implements Built<Comment, CommentBuilder> {
   String get text;
 
   DateTime get createdAt;
+
+  @override
+  int compareTo(Comment other) {
+    return other.createdAt.compareTo(createdAt);
+  }
 
   Map<String, dynamic> get json => serializers.serializeWith(serializer, this);
 

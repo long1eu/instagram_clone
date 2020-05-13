@@ -4,6 +4,7 @@
 
 import 'package:instagram_clone/src/actions/actions.dart';
 import 'package:instagram_clone/src/actions/comments/create_comment.dart';
+import 'package:instagram_clone/src/actions/comments/listen_for_comments.dart';
 import 'package:instagram_clone/src/data/comments_api.dart';
 import 'package:instagram_clone/src/models/app_state.dart';
 import 'package:instagram_clone/src/models/comments/comment.dart';
@@ -22,6 +23,7 @@ class CommentsEpics {
   Epic<AppState> get epics {
     return combineEpics(<Epic<AppState>>[
       TypedEpic<AppState, CreateComment>(_createComment),
+      _listenForComments,
     ]);
   }
 
@@ -37,5 +39,15 @@ class CommentsEpics {
             .map<AppAction>((Comment comment) => CreateCommentSuccessful(comment))
             .onErrorReturnWith((dynamic error) => CreateCommentError(error))
             .doOnData(action.result));
+  }
+
+  Stream<AppAction> _listenForComments(Stream<dynamic> actions, EpicStore<AppState> store) {
+    return actions //
+        .whereType<ListenForComments>()
+        .flatMap((ListenForComments action) => _api
+            .listen(store.state.posts.selectedPostId)
+            .map<AppAction>((List<Comment> comments) => OnCommentsEvent(comments))
+            .takeUntil(actions.whereType<StopListenForComments>())
+            .onErrorReturnWith((dynamic error) => ListenForCommentsError(error)));
   }
 }
