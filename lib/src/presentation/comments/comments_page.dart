@@ -7,8 +7,10 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:instagram_clone/src/actions/comments/create_comment.dart';
 import 'package:instagram_clone/src/actions/comments/listen_for_comments.dart';
 import 'package:instagram_clone/src/containers/comments_container.dart';
+import 'package:instagram_clone/src/containers/contacts_container.dart';
 import 'package:instagram_clone/src/containers/selected_post_container.dart';
 import 'package:instagram_clone/src/models/app_state.dart';
+import 'package:instagram_clone/src/models/auth/app_user.dart';
 import 'package:instagram_clone/src/models/comments/comment.dart';
 import 'package:instagram_clone/src/models/posts/post.dart';
 import 'package:redux/redux.dart';
@@ -59,15 +61,21 @@ class _CommentsPageState extends State<CommentsPage> {
           body: Column(
             children: <Widget>[
               Flexible(
-                child: CommentsContainer(
-                  builder: (BuildContext context, List<Comment> comments) {
-                    return ListView.builder(
-                      itemCount: comments.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        final Comment comment = comments[index];
-                        return ListTile(
-                          title: Text(comment.text),
-                          subtitle: Text(comment.createdAt.toIso8601String()),
+                child: ContactsContainer(
+                  builder: (BuildContext context, Map<String, AppUser> contacts) {
+                    return CommentsContainer(
+                      builder: (BuildContext context, List<Comment> comments) {
+                        return ListView.builder(
+                          itemCount: comments.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            final Comment comment = comments[index];
+                            final AppUser user = contacts[comment.uid];
+
+                            return ListTile(
+                              title: Text(user.displayName),
+                              subtitle: Text(comment.text),
+                            );
+                          },
                         );
                       },
                     );

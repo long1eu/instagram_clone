@@ -17,7 +17,12 @@ class _$AuthStateSerializer implements StructuredSerializer<AuthState> {
   @override
   Iterable<Object> serialize(Serializers serializers, AuthState object,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = <Object>[];
+    final result = <Object>[
+      'contacts',
+      serializers.serialize(object.contacts,
+          specifiedType: const FullType(BuiltMap,
+              const [const FullType(String), const FullType(AppUser)])),
+    ];
     if (object.user != null) {
       result
         ..add('user')
@@ -53,6 +58,11 @@ class _$AuthStateSerializer implements StructuredSerializer<AuthState> {
                   specifiedType: const FullType(RegistrationInfo))
               as RegistrationInfo);
           break;
+        case 'contacts':
+          result.contacts.replace(serializers.deserialize(value,
+              specifiedType: const FullType(BuiltMap,
+                  const [const FullType(String), const FullType(AppUser)])));
+          break;
       }
     }
 
@@ -65,11 +75,17 @@ class _$AuthState extends AuthState {
   final AppUser user;
   @override
   final RegistrationInfo info;
+  @override
+  final BuiltMap<String, AppUser> contacts;
 
   factory _$AuthState([void Function(AuthStateBuilder) updates]) =>
       (new AuthStateBuilder()..update(updates)).build();
 
-  _$AuthState._({this.user, this.info}) : super._();
+  _$AuthState._({this.user, this.info, this.contacts}) : super._() {
+    if (contacts == null) {
+      throw new BuiltValueNullFieldError('AuthState', 'contacts');
+    }
+  }
 
   @override
   AuthState rebuild(void Function(AuthStateBuilder) updates) =>
@@ -81,19 +97,24 @@ class _$AuthState extends AuthState {
   @override
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
-    return other is AuthState && user == other.user && info == other.info;
+    return other is AuthState &&
+        user == other.user &&
+        info == other.info &&
+        contacts == other.contacts;
   }
 
   @override
   int get hashCode {
-    return $jf($jc($jc(0, user.hashCode), info.hashCode));
+    return $jf(
+        $jc($jc($jc(0, user.hashCode), info.hashCode), contacts.hashCode));
   }
 
   @override
   String toString() {
     return (newBuiltValueToStringHelper('AuthState')
           ..add('user', user)
-          ..add('info', info))
+          ..add('info', info)
+          ..add('contacts', contacts))
         .toString();
   }
 }
@@ -110,12 +131,19 @@ class AuthStateBuilder implements Builder<AuthState, AuthStateBuilder> {
       _$this._info ??= new RegistrationInfoBuilder();
   set info(RegistrationInfoBuilder info) => _$this._info = info;
 
+  MapBuilder<String, AppUser> _contacts;
+  MapBuilder<String, AppUser> get contacts =>
+      _$this._contacts ??= new MapBuilder<String, AppUser>();
+  set contacts(MapBuilder<String, AppUser> contacts) =>
+      _$this._contacts = contacts;
+
   AuthStateBuilder();
 
   AuthStateBuilder get _$this {
     if (_$v != null) {
       _user = _$v.user?.toBuilder();
       _info = _$v.info?.toBuilder();
+      _contacts = _$v.contacts?.toBuilder();
       _$v = null;
     }
     return this;
@@ -138,8 +166,11 @@ class AuthStateBuilder implements Builder<AuthState, AuthStateBuilder> {
   _$AuthState build() {
     _$AuthState _$result;
     try {
-      _$result =
-          _$v ?? new _$AuthState._(user: _user?.build(), info: _info?.build());
+      _$result = _$v ??
+          new _$AuthState._(
+              user: _user?.build(),
+              info: _info?.build(),
+              contacts: contacts.build());
     } catch (_) {
       String _$failedField;
       try {
@@ -147,6 +178,8 @@ class AuthStateBuilder implements Builder<AuthState, AuthStateBuilder> {
         _user?.build();
         _$failedField = 'info';
         _info?.build();
+        _$failedField = 'contacts';
+        contacts.build();
       } catch (e) {
         throw new BuiltValueNestedFieldError(
             'AuthState', _$failedField, e.toString());

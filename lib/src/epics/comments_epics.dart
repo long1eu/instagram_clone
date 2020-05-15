@@ -3,6 +3,7 @@
 // on 08/05/2020
 
 import 'package:instagram_clone/src/actions/actions.dart';
+import 'package:instagram_clone/src/actions/auth/get_contact.dart';
 import 'package:instagram_clone/src/actions/comments/create_comment.dart';
 import 'package:instagram_clone/src/actions/comments/listen_for_comments.dart';
 import 'package:instagram_clone/src/data/comments_api.dart';
@@ -46,7 +47,13 @@ class CommentsEpics {
         .whereType<ListenForComments>()
         .flatMap((ListenForComments action) => _api
             .listen(store.state.posts.selectedPostId)
-            .map<AppAction>((List<Comment> comments) => OnCommentsEvent(comments))
+            .expand<AppAction>((List<Comment> comments) => <AppAction>[
+                  OnCommentsEvent(comments),
+                  ...comments
+                      .where((Comment comment) => store.state.auth.contacts[comment.uid] == null)
+                      .map((Comment comment) => GetContact(comment.uid))
+                      .toSet(),
+                ])
             .takeUntil(actions.whereType<StopListenForComments>())
             .onErrorReturnWith((dynamic error) => ListenForCommentsError(error)));
   }

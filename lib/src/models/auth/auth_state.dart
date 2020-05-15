@@ -4,6 +4,7 @@
 
 library auth_state;
 
+import 'package:built_collection/built_collection.dart';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
 import 'package:instagram_clone/src/models/auth/app_user.dart';
@@ -25,6 +26,9 @@ abstract class AuthState implements Built<AuthState, AuthStateBuilder> {
 
   @nullable
   RegistrationInfo get info;
+
+  // uid => user
+  BuiltMap<String, AppUser> get contacts;
 
   Map<String, dynamic> get json => serializers.serializeWith(serializer, this);
 

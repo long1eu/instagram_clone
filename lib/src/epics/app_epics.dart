@@ -43,8 +43,10 @@ class AppEpics {
 
   Stream<AppAction> _initializeApp(Stream<InitializeApp> actions, EpicStore<AppState> store) {
     return actions //
-        .asyncMap((InitializeApp action) => _authApi.getUser())
-        .map<AppAction>((AppUser user) => InitializeAppSuccessful(user))
-        .onErrorReturnWith((dynamic error) => InitializeAppError(error));
+        .flatMap((InitializeApp action) => _authApi
+            .getUser()
+            .asStream()
+            .map<AppAction>((AppUser user) => InitializeAppSuccessful(user))
+            .onErrorReturnWith((dynamic error) => InitializeAppError(error)));
   }
 }
