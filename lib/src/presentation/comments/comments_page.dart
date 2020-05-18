@@ -52,18 +52,18 @@ class _CommentsPageState extends State<CommentsPage> {
 
   @override
   Widget build(BuildContext context) {
-    return SelectedPostContainer(
-      builder: (BuildContext context, Post post) {
-        return Scaffold(
-          appBar: AppBar(
-            title: Text(post.id),
-          ),
-          body: Column(
-            children: <Widget>[
-              Flexible(
-                child: ContactsContainer(
-                  builder: (BuildContext context, Map<String, AppUser> contacts) {
-                    return CommentsContainer(
+    return ContactsContainer(
+      builder: (BuildContext context, Map<String, AppUser> contacts) {
+        return SelectedPostContainer(
+          builder: (BuildContext context, Post post) {
+            return Scaffold(
+              appBar: AppBar(
+                title: Text(contacts[post.uid].displayName),
+              ),
+              body: Column(
+                children: <Widget>[
+                  Flexible(
+                    child: CommentsContainer(
                       builder: (BuildContext context, List<Comment> comments) {
                         return ListView.builder(
                           itemCount: comments.length,
@@ -78,49 +78,50 @@ class _CommentsPageState extends State<CommentsPage> {
                           },
                         );
                       },
-                    );
-                  },
-                ),
-              ),
-              const Divider(),
-              Form(
-                child: SafeArea(
-                  child: Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 16.0),
-                    padding: const EdgeInsetsDirectional.only(bottom: 16.0),
-                    child: Row(
-                      children: <Widget>[
-                        Flexible(
-                          child: TextFormField(
-                            controller: controller,
-                            validator: (String value) {
-                              if (value.isEmpty) {
-                                return 'Try a longer comment.';
-                              }
-
-                              return null;
-                            },
-                          ),
-                        ),
-                        Builder(
-                          builder: (BuildContext context) {
-                            return IconButton(
-                              icon: const Icon(Icons.send),
-                              onPressed: () {
-                                if (Form.of(context).validate()) {
-                                  StoreProvider.of<AppState>(context).dispatch(CreateComment(controller.text, _result));
-                                }
-                              },
-                            );
-                          },
-                        ),
-                      ],
                     ),
                   ),
-                ),
+                  const Divider(),
+                  Form(
+                    child: SafeArea(
+                      child: Container(
+                        margin: const EdgeInsets.symmetric(horizontal: 16.0),
+                        padding: const EdgeInsetsDirectional.only(bottom: 16.0),
+                        child: Row(
+                          children: <Widget>[
+                            Flexible(
+                              child: TextFormField(
+                                controller: controller,
+                                validator: (String value) {
+                                  if (value.isEmpty) {
+                                    return 'Try a longer comment.';
+                                  }
+
+                                  return null;
+                                },
+                              ),
+                            ),
+                            Builder(
+                              builder: (BuildContext context) {
+                                return IconButton(
+                                  icon: const Icon(Icons.send),
+                                  onPressed: () {
+                                    if (Form.of(context).validate()) {
+                                      StoreProvider.of<AppState>(context)
+                                          .dispatch(CreateComment(controller.text, _result));
+                                    }
+                                  },
+                                );
+                              },
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
-            ],
-          ),
+            );
+          },
         );
       },
     );
