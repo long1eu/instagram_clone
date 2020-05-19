@@ -13,6 +13,9 @@ import 'package:instagram_clone/src/models/auth/auth_state.dart';
 import 'package:instagram_clone/src/models/auth/registration_info.dart';
 import 'package:instagram_clone/src/models/comments/comment.dart';
 import 'package:instagram_clone/src/models/comments/comments_state.dart';
+import 'package:instagram_clone/src/models/likes/like.dart';
+import 'package:instagram_clone/src/models/likes/like_type.dart';
+import 'package:instagram_clone/src/models/likes/likes_state.dart';
 import 'package:instagram_clone/src/models/posts/post.dart';
 import 'package:instagram_clone/src/models/posts/posts_state.dart';
 import 'package:instagram_clone/src/models/posts/save_post_info.dart';
@@ -29,6 +32,9 @@ part 'serializers.g.dart';
   AuthState,
   PostsState,
   CommentsState,
+  LikesState,
+  Like,
+  LikeType,
 ])
 Serializers serializers = (_$serializers.toBuilder() //
       ..addPlugin(StandardJsonPlugin()))
