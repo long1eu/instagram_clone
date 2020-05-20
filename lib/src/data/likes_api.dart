@@ -22,6 +22,7 @@ class LikesApi {
     @required String parentId,
     @required LikeType type,
   }) async {
+
     // Create like object
     final DocumentReference documentRef = _firestore.collection('likes').document();
     final Like like = Like(

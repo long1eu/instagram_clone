@@ -24,6 +24,12 @@ class _$LikesStateSerializer implements StructuredSerializer<LikesState> {
             const FullType(String),
             const FullType(BuiltList, const [const FullType(Like)])
           ])),
+      'comments',
+      serializers.serialize(object.comments,
+          specifiedType: const FullType(BuiltMap, const [
+            const FullType(String),
+            const FullType(BuiltList, const [const FullType(Like)])
+          ])),
     ];
 
     return result;
@@ -47,6 +53,13 @@ class _$LikesStateSerializer implements StructuredSerializer<LikesState> {
                 const FullType(BuiltList, const [const FullType(Like)])
               ])));
           break;
+        case 'comments':
+          result.comments.replace(serializers.deserialize(value,
+              specifiedType: const FullType(BuiltMap, const [
+                const FullType(String),
+                const FullType(BuiltList, const [const FullType(Like)])
+              ])));
+          break;
       }
     }
 
@@ -57,13 +70,18 @@ class _$LikesStateSerializer implements StructuredSerializer<LikesState> {
 class _$LikesState extends LikesState {
   @override
   final BuiltMap<String, BuiltList<Like>> posts;
+  @override
+  final BuiltMap<String, BuiltList<Like>> comments;
 
   factory _$LikesState([void Function(LikesStateBuilder) updates]) =>
       (new LikesStateBuilder()..update(updates)).build();
 
-  _$LikesState._({this.posts}) : super._() {
+  _$LikesState._({this.posts, this.comments}) : super._() {
     if (posts == null) {
       throw new BuiltValueNullFieldError('LikesState', 'posts');
+    }
+    if (comments == null) {
+      throw new BuiltValueNullFieldError('LikesState', 'comments');
     }
   }
 
@@ -77,17 +95,21 @@ class _$LikesState extends LikesState {
   @override
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
-    return other is LikesState && posts == other.posts;
+    return other is LikesState &&
+        posts == other.posts &&
+        comments == other.comments;
   }
 
   @override
   int get hashCode {
-    return $jf($jc(0, posts.hashCode));
+    return $jf($jc($jc(0, posts.hashCode), comments.hashCode));
   }
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper('LikesState')..add('posts', posts))
+    return (newBuiltValueToStringHelper('LikesState')
+          ..add('posts', posts)
+          ..add('comments', comments))
         .toString();
   }
 }
@@ -100,11 +122,18 @@ class LikesStateBuilder implements Builder<LikesState, LikesStateBuilder> {
       _$this._posts ??= new MapBuilder<String, BuiltList<Like>>();
   set posts(MapBuilder<String, BuiltList<Like>> posts) => _$this._posts = posts;
 
+  MapBuilder<String, BuiltList<Like>> _comments;
+  MapBuilder<String, BuiltList<Like>> get comments =>
+      _$this._comments ??= new MapBuilder<String, BuiltList<Like>>();
+  set comments(MapBuilder<String, BuiltList<Like>> comments) =>
+      _$this._comments = comments;
+
   LikesStateBuilder();
 
   LikesStateBuilder get _$this {
     if (_$v != null) {
       _posts = _$v.posts?.toBuilder();
+      _comments = _$v.comments?.toBuilder();
       _$v = null;
     }
     return this;
@@ -127,12 +156,15 @@ class LikesStateBuilder implements Builder<LikesState, LikesStateBuilder> {
   _$LikesState build() {
     _$LikesState _$result;
     try {
-      _$result = _$v ?? new _$LikesState._(posts: posts.build());
+      _$result = _$v ??
+          new _$LikesState._(posts: posts.build(), comments: comments.build());
     } catch (_) {
       String _$failedField;
       try {
         _$failedField = 'posts';
         posts.build();
+        _$failedField = 'comments';
+        comments.build();
       } catch (e) {
         throw new BuiltValueNestedFieldError(
             'LikesState', _$failedField, e.toString());
