@@ -9,7 +9,7 @@ import 'package:instagram_clone/src/models/likes/like_type.dart';
 import 'package:instagram_clone/src/models/likes/likes_state.dart';
 import 'package:redux/redux.dart';
 
-Reducer<LikesState> postReducer = combineReducers<LikesState>(<Reducer<LikesState>>[
+Reducer<LikesState> likesReducer = combineReducers<LikesState>(<Reducer<LikesState>>[
   TypedReducer<LikesState, CreateLikeSuccessful>(_createLikeSuccessful),
 ]);
 
@@ -24,6 +24,7 @@ LikesState _createLikeSuccessful(LikesState state, CreateLikeSuccessful action) 
       if (!list.build().contains(action.like)) {
         list.add(action.like);
       }
+      print(list.build());
       b.posts[action.like.parentId] = list.build();
     } else if (action.like.type == LikeType.comment) {
       final ListBuilder<Like> list = b.comments[action.like.parentId]?.toBuilder() ?? ListBuilder<Like>();
