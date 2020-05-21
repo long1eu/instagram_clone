@@ -6,6 +6,7 @@ import 'package:instagram_clone/src/actions/actions.dart';
 import 'package:instagram_clone/src/actions/auth/get_contact.dart';
 import 'package:instagram_clone/src/actions/comments/create_comment.dart';
 import 'package:instagram_clone/src/actions/comments/listen_for_comments.dart';
+import 'package:instagram_clone/src/actions/likes/get_likes.dart';
 import 'package:instagram_clone/src/data/comments_api.dart';
 import 'package:instagram_clone/src/models/app_state.dart';
 import 'package:instagram_clone/src/models/comments/comment.dart';
@@ -52,6 +53,10 @@ class CommentsEpics {
                   ...comments
                       .where((Comment comment) => store.state.auth.contacts[comment.uid] == null)
                       .map((Comment comment) => GetContact(comment.uid))
+                      .toSet(),
+                  ...comments
+                      .where((Comment comment) => store.state.likes.comments[comment.id] == null)
+                      .map((Comment comment) => GetLikes(comment.id))
                       .toSet(),
                 ])
             .takeUntil(actions.whereType<StopListenForComments>())

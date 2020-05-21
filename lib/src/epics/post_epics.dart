@@ -4,6 +4,7 @@
 
 import 'package:instagram_clone/src/actions/actions.dart';
 import 'package:instagram_clone/src/actions/auth/get_contact.dart';
+import 'package:instagram_clone/src/actions/likes/get_likes.dart';
 import 'package:instagram_clone/src/actions/posts/create_post.dart';
 import 'package:instagram_clone/src/actions/posts/listen_for_posts.dart';
 import 'package:instagram_clone/src/data/post_api.dart';
@@ -52,6 +53,10 @@ class PostEpics {
                   ...posts //
                       .where((Post post) => store.state.auth.contacts[post.uid] == null)
                       .map((Post post) => GetContact(post.uid))
+                      .toSet(),
+                  ...posts //
+                      .where((Post post) => store.state.likes.posts[post.id] == null)
+                      .map((Post post) => GetLikes(post.id))
                       .toSet(),
                 ])
             .takeUntil(actions.whereType<StopListeningForPosts>())
