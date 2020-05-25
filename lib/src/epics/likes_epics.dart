@@ -4,6 +4,7 @@
 
 import 'package:instagram_clone/src/actions/actions.dart';
 import 'package:instagram_clone/src/actions/likes/create_like.dart';
+import 'package:instagram_clone/src/actions/likes/delete_like.dart';
 import 'package:instagram_clone/src/actions/likes/get_likes.dart';
 import 'package:instagram_clone/src/data/likes_api.dart';
 import 'package:instagram_clone/src/models/app_state.dart';
@@ -24,6 +25,7 @@ class LikesEpics {
     return combineEpics(<Epic<AppState>>[
       TypedEpic<AppState, CreateLike>(_createLike),
       TypedEpic<AppState, GetLikes>(_getLikes),
+      TypedEpic<AppState, DeleteLike>(_deleteLike),
     ]);
   }
 
@@ -47,5 +49,18 @@ class LikesEpics {
             .asStream()
             .map<AppAction>((List<Like> likes) => GetLikesSuccessful(likes, action.parentId))
             .onErrorReturnWith((dynamic error) => GetLikesError(error)));
+  }
+
+  Stream<AppAction> _deleteLike(Stream<DeleteLike> actions, EpicStore<AppState> store) {
+    return actions //
+        .flatMap((DeleteLike action) => _api
+            .delete(action.likeId)
+            .asStream()
+            .map<AppAction>((_) => DeleteLikeSuccessful(
+                  likeId: action.likeId,
+                  parentId: action.parentId,
+                  type: action.type,
+                ))
+            .onErrorReturnWith((dynamic error) => DeleteLikeError(error)));
   }
 }

@@ -28,7 +28,6 @@ class LikesApi {
 
   // 1. Create like
   // 2. Save like
-  // 3. Update likes count on post/comment
   Future<Like> create({
     @required String uid,
     @required String parentId,
@@ -47,7 +46,9 @@ class LikesApi {
     await documentRef.setData(like.json);
     return like;
   }
-}
 
-// 1. update rules to allow this operation
-// 2. used admin sdk to increment the field
+  Future<void> delete(String likeId) async {
+    final DocumentReference documentRef = _firestore.document('likes/$likeId');
+    await documentRef.delete();
+  }
+}
