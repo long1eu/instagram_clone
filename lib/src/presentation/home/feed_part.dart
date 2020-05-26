@@ -60,6 +60,12 @@ class _FeedPartState extends State<FeedPart> {
 
                 return PostsLikesContainer(
                   builder: (BuildContext context, BuiltMap<String, BuiltList<Like>> likes) {
+                    if (likes.isEmpty) {
+                      return const Center(
+                        child: Text('No posts yet.'),
+                      );
+                    }
+
                     return ListView.builder(
                       itemCount: posts.length,
                       itemBuilder: (BuildContext context, int index) {

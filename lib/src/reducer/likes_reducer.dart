@@ -19,10 +19,6 @@ Reducer<LikesState> likesReducer = combineReducers<LikesState>(<Reducer<LikesSta
 
 LikesState _createLikeSuccessful(LikesState state, CreateLikeSuccessful action) {
   return state.rebuild((LikesStateBuilder b) {
-    // 1. like list is null
-    // 2. like list is not null
-    // 3. this is a comment like
-    // 3. this is a post like
     if (action.like.type == LikeType.post) {
       final ListBuilder<Like> list = b.posts[action.like.parentId]?.toBuilder() ?? ListBuilder<Like>();
       if (!list.build().contains(action.like)) {

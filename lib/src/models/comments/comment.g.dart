@@ -30,6 +30,8 @@ class _$CommentSerializer implements StructuredSerializer<Comment> {
       'createdAt',
       serializers.serialize(object.createdAt,
           specifiedType: const FullType(DateTime)),
+      'likes',
+      serializers.serialize(object.likes, specifiedType: const FullType(int)),
     ];
 
     return result;
@@ -66,6 +68,10 @@ class _$CommentSerializer implements StructuredSerializer<Comment> {
           result.createdAt = serializers.deserialize(value,
               specifiedType: const FullType(DateTime)) as DateTime;
           break;
+        case 'likes':
+          result.likes = serializers.deserialize(value,
+              specifiedType: const FullType(int)) as int;
+          break;
       }
     }
 
@@ -84,11 +90,14 @@ class _$Comment extends Comment {
   final String text;
   @override
   final DateTime createdAt;
+  @override
+  final int likes;
 
   factory _$Comment([void Function(CommentBuilder) updates]) =>
       (new CommentBuilder()..update(updates)).build();
 
-  _$Comment._({this.id, this.postId, this.uid, this.text, this.createdAt})
+  _$Comment._(
+      {this.id, this.postId, this.uid, this.text, this.createdAt, this.likes})
       : super._() {
     if (id == null) {
       throw new BuiltValueNullFieldError('Comment', 'id');
@@ -104,6 +113,9 @@ class _$Comment extends Comment {
     }
     if (createdAt == null) {
       throw new BuiltValueNullFieldError('Comment', 'createdAt');
+    }
+    if (likes == null) {
+      throw new BuiltValueNullFieldError('Comment', 'likes');
     }
   }
 
@@ -122,15 +134,18 @@ class _$Comment extends Comment {
         postId == other.postId &&
         uid == other.uid &&
         text == other.text &&
-        createdAt == other.createdAt;
+        createdAt == other.createdAt &&
+        likes == other.likes;
   }
 
   @override
   int get hashCode {
     return $jf($jc(
-        $jc($jc($jc($jc(0, id.hashCode), postId.hashCode), uid.hashCode),
-            text.hashCode),
-        createdAt.hashCode));
+        $jc(
+            $jc($jc($jc($jc(0, id.hashCode), postId.hashCode), uid.hashCode),
+                text.hashCode),
+            createdAt.hashCode),
+        likes.hashCode));
   }
 
   @override
@@ -140,7 +155,8 @@ class _$Comment extends Comment {
           ..add('postId', postId)
           ..add('uid', uid)
           ..add('text', text)
-          ..add('createdAt', createdAt))
+          ..add('createdAt', createdAt)
+          ..add('likes', likes))
         .toString();
   }
 }
@@ -168,6 +184,10 @@ class CommentBuilder implements Builder<Comment, CommentBuilder> {
   DateTime get createdAt => _$this._createdAt;
   set createdAt(DateTime createdAt) => _$this._createdAt = createdAt;
 
+  int _likes;
+  int get likes => _$this._likes;
+  set likes(int likes) => _$this._likes = likes;
+
   CommentBuilder();
 
   CommentBuilder get _$this {
@@ -177,6 +197,7 @@ class CommentBuilder implements Builder<Comment, CommentBuilder> {
       _uid = _$v.uid;
       _text = _$v.text;
       _createdAt = _$v.createdAt;
+      _likes = _$v.likes;
       _$v = null;
     }
     return this;
@@ -199,7 +220,12 @@ class CommentBuilder implements Builder<Comment, CommentBuilder> {
   _$Comment build() {
     final _$result = _$v ??
         new _$Comment._(
-            id: id, postId: postId, uid: uid, text: text, createdAt: createdAt);
+            id: id,
+            postId: postId,
+            uid: uid,
+            text: text,
+            createdAt: createdAt,
+            likes: likes);
     replace(_$result);
     return _$result;
   }
