@@ -17,6 +17,7 @@ import 'package:instagram_clone/src/presentation/home.dart';
 import 'package:instagram_clone/src/presentation/home/home_page.dart';
 import 'package:instagram_clone/src/presentation/login_page.dart';
 import 'package:instagram_clone/src/presentation/post_details.dart';
+import 'package:instagram_clone/src/presentation/profile/users_lists.dart';
 import 'package:instagram_clone/src/presentation/sign_up/signup_page.dart';
 import 'package:instagram_clone/src/reducer/reducer.dart';
 import 'package:intl/date_symbol_data_local.dart';
@@ -73,6 +74,7 @@ class InstagramClone extends StatelessWidget {
           '/forgotPassword': (_) => const ForgotPassword(),
           '/postDetails': (_) => const PostDetails(),
           '/commentsPage': (_) => const CommentsPage(),
+          '/usersList': (_) => const UsersList(),
         },
       ),
     );

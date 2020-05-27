@@ -20,6 +20,10 @@ class _$AppUserSerializer implements StructuredSerializer<AppUser> {
     final result = <Object>[
       'uid',
       serializers.serialize(object.uid, specifiedType: const FullType(String)),
+      'following',
+      serializers.serialize(object.following,
+          specifiedType:
+              const FullType(BuiltList, const [const FullType(String)])),
     ];
     if (object.displayName != null) {
       result
@@ -99,6 +103,12 @@ class _$AppUserSerializer implements StructuredSerializer<AppUser> {
           result.photoUrl = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String;
           break;
+        case 'following':
+          result.following.replace(serializers.deserialize(value,
+                  specifiedType:
+                      const FullType(BuiltList, const [const FullType(String)]))
+              as BuiltList<Object>);
+          break;
       }
     }
 
@@ -121,6 +131,8 @@ class _$AppUser extends AppUser {
   final DateTime birthDate;
   @override
   final String photoUrl;
+  @override
+  final BuiltList<String> following;
 
   factory _$AppUser([void Function(AppUserBuilder) updates]) =>
       (new AppUserBuilder()..update(updates)).build();
@@ -132,10 +144,14 @@ class _$AppUser extends AppUser {
       this.email,
       this.phone,
       this.birthDate,
-      this.photoUrl})
+      this.photoUrl,
+      this.following})
       : super._() {
     if (uid == null) {
       throw new BuiltValueNullFieldError('AppUser', 'uid');
+    }
+    if (following == null) {
+      throw new BuiltValueNullFieldError('AppUser', 'following');
     }
   }
 
@@ -156,7 +172,8 @@ class _$AppUser extends AppUser {
         email == other.email &&
         phone == other.phone &&
         birthDate == other.birthDate &&
-        photoUrl == other.photoUrl;
+        photoUrl == other.photoUrl &&
+        following == other.following;
   }
 
   @override
@@ -165,12 +182,14 @@ class _$AppUser extends AppUser {
         $jc(
             $jc(
                 $jc(
-                    $jc($jc($jc(0, uid.hashCode), displayName.hashCode),
-                        username.hashCode),
-                    email.hashCode),
-                phone.hashCode),
-            birthDate.hashCode),
-        photoUrl.hashCode));
+                    $jc(
+                        $jc($jc($jc(0, uid.hashCode), displayName.hashCode),
+                            username.hashCode),
+                        email.hashCode),
+                    phone.hashCode),
+                birthDate.hashCode),
+            photoUrl.hashCode),
+        following.hashCode));
   }
 
   @override
@@ -182,7 +201,8 @@ class _$AppUser extends AppUser {
           ..add('email', email)
           ..add('phone', phone)
           ..add('birthDate', birthDate)
-          ..add('photoUrl', photoUrl))
+          ..add('photoUrl', photoUrl)
+          ..add('following', following))
         .toString();
   }
 }
@@ -218,6 +238,11 @@ class AppUserBuilder implements Builder<AppUser, AppUserBuilder> {
   String get photoUrl => _$this._photoUrl;
   set photoUrl(String photoUrl) => _$this._photoUrl = photoUrl;
 
+  ListBuilder<String> _following;
+  ListBuilder<String> get following =>
+      _$this._following ??= new ListBuilder<String>();
+  set following(ListBuilder<String> following) => _$this._following = following;
+
   AppUserBuilder();
 
   AppUserBuilder get _$this {
@@ -229,6 +254,7 @@ class AppUserBuilder implements Builder<AppUser, AppUserBuilder> {
       _phone = _$v.phone;
       _birthDate = _$v.birthDate;
       _photoUrl = _$v.photoUrl;
+      _following = _$v.following?.toBuilder();
       _$v = null;
     }
     return this;
@@ -249,15 +275,29 @@ class AppUserBuilder implements Builder<AppUser, AppUserBuilder> {
 
   @override
   _$AppUser build() {
-    final _$result = _$v ??
-        new _$AppUser._(
-            uid: uid,
-            displayName: displayName,
-            username: username,
-            email: email,
-            phone: phone,
-            birthDate: birthDate,
-            photoUrl: photoUrl);
+    _$AppUser _$result;
+    try {
+      _$result = _$v ??
+          new _$AppUser._(
+              uid: uid,
+              displayName: displayName,
+              username: username,
+              email: email,
+              phone: phone,
+              birthDate: birthDate,
+              photoUrl: photoUrl,
+              following: following.build());
+    } catch (_) {
+      String _$failedField;
+      try {
+        _$failedField = 'following';
+        following.build();
+      } catch (e) {
+        throw new BuiltValueNestedFieldError(
+            'AppUser', _$failedField, e.toString());
+      }
+      rethrow;
+    }
     replace(_$result);
     return _$result;
   }

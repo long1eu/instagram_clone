@@ -3,10 +3,8 @@
 // on 10/04/2020
 
 import 'package:flutter/material.dart';
-import 'package:flutter_redux/flutter_redux.dart';
-import 'package:instagram_clone/src/actions/auth/logout.dart';
-import 'package:instagram_clone/src/models/app_state.dart';
 import 'package:instagram_clone/src/presentation/home/feed_part.dart';
+import 'package:instagram_clone/src/presentation/profile/profile_part.dart';
 
 import 'add_post_page.dart';
 
@@ -31,23 +29,13 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        actions: <Widget>[
-          IconButton(
-            icon: const Icon(Icons.clear),
-            onPressed: () async {
-              StoreProvider.of<AppState>(context).dispatch(Logout());
-            },
-          ),
-        ],
-      ),
       body: TabBarView(
         controller: tabController,
         children: <Widget>[
           const FeedPart(),
           Container(color: Colors.orange),
           Container(color: Colors.blue),
-          Container(color: Colors.green),
+          const ProfilePart(),
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(

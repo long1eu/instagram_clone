@@ -28,6 +28,7 @@ abstract class AuthState implements Built<AuthState, AuthStateBuilder> {
   RegistrationInfo get info;
 
   // uid => user
+  /// The users that have posts and comments in this local instance of the app and the user that this user follows.
   BuiltMap<String, AppUser> get contacts;
 
   Map<String, dynamic> get json => serializers.serializeWith(serializer, this);

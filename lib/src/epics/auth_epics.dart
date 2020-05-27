@@ -41,7 +41,13 @@ class AuthEpics {
         .flatMap((Login action) => _authApi
             .login(action.email, action.password)
             .asStream()
-            .map<AppAction>((AppUser user) => LoginSuccessful(user))
+            .expand<AppAction>((AppUser user) => <AppAction>[
+                  LoginSuccessful(user),
+                  ...user.following //
+                      .where((String uid) => store.state.auth.contacts[uid] == null)
+                      .map((String uid) => GetContact(uid))
+                      .toSet(),
+                ])
             .onErrorReturnWith((dynamic error) => LoginError(error)));
   }
 
