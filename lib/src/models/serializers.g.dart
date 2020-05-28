@@ -36,6 +36,9 @@ Serializers _$serializers = (new Serializers().toBuilder()
               const [const FullType(String), const FullType(AppUser)]),
           () => new MapBuilder<String, AppUser>())
       ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(AppUser)]),
+          () => new ListBuilder<AppUser>())
+      ..addBuilderFactory(
           const FullType(BuiltMap, const [
             const FullType(String),
             const FullType(BuiltList, const [const FullType(Like)])

@@ -22,6 +22,10 @@ class _$AuthStateSerializer implements StructuredSerializer<AuthState> {
       serializers.serialize(object.contacts,
           specifiedType: const FullType(BuiltMap,
               const [const FullType(String), const FullType(AppUser)])),
+      'searchResult',
+      serializers.serialize(object.searchResult,
+          specifiedType:
+              const FullType(BuiltList, const [const FullType(AppUser)])),
     ];
     if (object.user != null) {
       result
@@ -63,6 +67,12 @@ class _$AuthStateSerializer implements StructuredSerializer<AuthState> {
               specifiedType: const FullType(BuiltMap,
                   const [const FullType(String), const FullType(AppUser)])));
           break;
+        case 'searchResult':
+          result.searchResult.replace(serializers.deserialize(value,
+                  specifiedType: const FullType(
+                      BuiltList, const [const FullType(AppUser)]))
+              as BuiltList<Object>);
+          break;
       }
     }
 
@@ -77,13 +87,19 @@ class _$AuthState extends AuthState {
   final RegistrationInfo info;
   @override
   final BuiltMap<String, AppUser> contacts;
+  @override
+  final BuiltList<AppUser> searchResult;
 
   factory _$AuthState([void Function(AuthStateBuilder) updates]) =>
       (new AuthStateBuilder()..update(updates)).build();
 
-  _$AuthState._({this.user, this.info, this.contacts}) : super._() {
+  _$AuthState._({this.user, this.info, this.contacts, this.searchResult})
+      : super._() {
     if (contacts == null) {
       throw new BuiltValueNullFieldError('AuthState', 'contacts');
+    }
+    if (searchResult == null) {
+      throw new BuiltValueNullFieldError('AuthState', 'searchResult');
     }
   }
 
@@ -100,13 +116,15 @@ class _$AuthState extends AuthState {
     return other is AuthState &&
         user == other.user &&
         info == other.info &&
-        contacts == other.contacts;
+        contacts == other.contacts &&
+        searchResult == other.searchResult;
   }
 
   @override
   int get hashCode {
-    return $jf(
-        $jc($jc($jc(0, user.hashCode), info.hashCode), contacts.hashCode));
+    return $jf($jc(
+        $jc($jc($jc(0, user.hashCode), info.hashCode), contacts.hashCode),
+        searchResult.hashCode));
   }
 
   @override
@@ -114,7 +132,8 @@ class _$AuthState extends AuthState {
     return (newBuiltValueToStringHelper('AuthState')
           ..add('user', user)
           ..add('info', info)
-          ..add('contacts', contacts))
+          ..add('contacts', contacts)
+          ..add('searchResult', searchResult))
         .toString();
   }
 }
@@ -137,6 +156,12 @@ class AuthStateBuilder implements Builder<AuthState, AuthStateBuilder> {
   set contacts(MapBuilder<String, AppUser> contacts) =>
       _$this._contacts = contacts;
 
+  ListBuilder<AppUser> _searchResult;
+  ListBuilder<AppUser> get searchResult =>
+      _$this._searchResult ??= new ListBuilder<AppUser>();
+  set searchResult(ListBuilder<AppUser> searchResult) =>
+      _$this._searchResult = searchResult;
+
   AuthStateBuilder();
 
   AuthStateBuilder get _$this {
@@ -144,6 +169,7 @@ class AuthStateBuilder implements Builder<AuthState, AuthStateBuilder> {
       _user = _$v.user?.toBuilder();
       _info = _$v.info?.toBuilder();
       _contacts = _$v.contacts?.toBuilder();
+      _searchResult = _$v.searchResult?.toBuilder();
       _$v = null;
     }
     return this;
@@ -170,7 +196,8 @@ class AuthStateBuilder implements Builder<AuthState, AuthStateBuilder> {
           new _$AuthState._(
               user: _user?.build(),
               info: _info?.build(),
-              contacts: contacts.build());
+              contacts: contacts.build(),
+              searchResult: searchResult.build());
     } catch (_) {
       String _$failedField;
       try {
@@ -180,6 +207,8 @@ class AuthStateBuilder implements Builder<AuthState, AuthStateBuilder> {
         _info?.build();
         _$failedField = 'contacts';
         contacts.build();
+        _$failedField = 'searchResult';
+        searchResult.build();
       } catch (e) {
         throw new BuiltValueNestedFieldError(
             'AuthState', _$failedField, e.toString());

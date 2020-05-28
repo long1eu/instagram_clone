@@ -9,6 +9,7 @@ import 'package:instagram_clone/src/actions/auth/login.dart';
 import 'package:instagram_clone/src/actions/auth/logout.dart';
 import 'package:instagram_clone/src/actions/auth/reserve_username.dart';
 import 'package:instagram_clone/src/actions/auth/reset_password.dart';
+import 'package:instagram_clone/src/actions/auth/search_users.dart';
 import 'package:instagram_clone/src/actions/auth/send_sms.dart';
 import 'package:instagram_clone/src/actions/auth/signup.dart';
 import 'package:instagram_clone/src/data/auth_api.dart';
@@ -33,6 +34,7 @@ class AuthEpics {
       TypedEpic<AppState, ReserveUsername>(_reserveUsername),
       TypedEpic<AppState, SendSms>(_sendSms),
       TypedEpic<AppState, GetContact>(_getContact),
+      TypedEpic<AppState, SearchUsers>(_searchUsers),
     ]);
   }
 
@@ -106,5 +108,15 @@ class AuthEpics {
             .asStream()
             .map<AppAction>((AppUser user) => GetContactSuccessful(user))
             .onErrorReturnWith((dynamic error) => GetContactError(error)));
+  }
+
+  Stream<AppAction> _searchUsers(Stream<SearchUsers> actions, EpicStore<AppState> store) {
+    return actions //
+        .debounceTime(const Duration(milliseconds: 300))
+        .switchMap((SearchUsers action) => _authApi
+            .searchUsers(action.query)
+            .asStream()
+            .map<AppAction>((List<AppUser> users) => SearchUsersSuccessful(users))
+            .onErrorReturnWith((dynamic error) => SearchUsersError(error)));
   }
 }

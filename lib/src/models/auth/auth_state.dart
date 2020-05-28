@@ -20,7 +20,6 @@ abstract class AuthState implements Built<AuthState, AuthStateBuilder> {
 
   AuthState._();
 
-  // Auth
   @nullable
   AppUser get user;
 
@@ -30,6 +29,8 @@ abstract class AuthState implements Built<AuthState, AuthStateBuilder> {
   // uid => user
   /// The users that have posts and comments in this local instance of the app and the user that this user follows.
   BuiltMap<String, AppUser> get contacts;
+
+  BuiltList<AppUser> get searchResult;
 
   Map<String, dynamic> get json => serializers.serializeWith(serializer, this);
 
