@@ -5,6 +5,7 @@
 import 'package:flutter/material.dart';
 import 'package:instagram_clone/src/presentation/home/feed_part.dart';
 import 'package:instagram_clone/src/presentation/profile/profile_part.dart';
+import 'package:instagram_clone/src/presentation/search/search_part.dart';
 
 import 'add_post_page.dart';
 
@@ -33,7 +34,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
         controller: tabController,
         children: <Widget>[
           const FeedPart(),
-          Container(color: Colors.orange),
+          const SearchPart(),
           Container(color: Colors.blue),
           const ProfilePart(),
         ],

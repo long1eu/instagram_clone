@@ -1,3 +1,4 @@
+import 'package:algolia/algolia.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -26,7 +27,11 @@ import 'package:redux_epics/redux_epics.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  final AuthApi authApi = AuthApi(auth: FirebaseAuth.instance, firestore: Firestore.instance);
+
+  const Algolia algolia = Algolia.init(applicationId: 'J754OR2W4U', apiKey: '77f3205ba1b7efbbbf7f4dff470b9feb');
+  final AlgoliaIndexReference index = algolia.index('users');
+
+  final AuthApi authApi = AuthApi(auth: FirebaseAuth.instance, firestore: Firestore.instance, index: index);
   final PostApi postApi = PostApi(firestore: Firestore.instance, storage: FirebaseStorage.instance);
   final CommentsApi commentsApi = CommentsApi(firestore: Firestore.instance);
   final LikesApi likesApi = LikesApi(firestore: Firestore.instance);
