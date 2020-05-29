@@ -8,12 +8,17 @@ import 'package:instagram_clone/src/actions/auth/logout.dart';
 import 'package:instagram_clone/src/actions/auth/reserve_username.dart';
 import 'package:instagram_clone/src/actions/auth/search_users.dart';
 import 'package:instagram_clone/src/actions/auth/send_sms.dart';
+import 'package:instagram_clone/src/actions/auth/start_following.dart';
+import 'package:instagram_clone/src/actions/auth/stop_following.dart';
 import 'package:instagram_clone/src/actions/auth/update_registration_info.dart';
+import 'package:instagram_clone/src/models/auth/app_user.dart';
 import 'package:instagram_clone/src/models/auth/auth_state.dart';
 import 'package:redux/redux.dart';
 
 Reducer<AuthState> authReducer = combineReducers<AuthState>(<Reducer<AuthState>>[
   TypedReducer<AuthState, UserAction>(_userAction),
+  TypedReducer<AuthState, StartFollowingSuccessful>(_startFollowingSuccessful),
+  TypedReducer<AuthState, StopFollowingSuccessful>(_stopFollowingSuccessful),
   TypedReducer<AuthState, LogoutSuccessful>(_logoutSuccessful),
   TypedReducer<AuthState, UpdateRegistrationInfo>(_updateRegistrationInfo),
   TypedReducer<AuthState, ReserveUsernameSuccessful>(_reserveUsernameSuccessful),
@@ -24,6 +29,18 @@ Reducer<AuthState> authReducer = combineReducers<AuthState>(<Reducer<AuthState>>
 
 AuthState _userAction(AuthState state, UserAction action) {
   return state.rebuild((AuthStateBuilder b) => b.user = action.user?.toBuilder());
+}
+
+AuthState _startFollowingSuccessful(AuthState state, StartFollowingSuccessful action) {
+  return state.rebuild((AuthStateBuilder b) {
+    b.user = state.user.rebuild((AppUserBuilder b) => b.following.add(action.followingUid)).toBuilder();
+  });
+}
+
+AuthState _stopFollowingSuccessful(AuthState state, StopFollowingSuccessful action) {
+  return state.rebuild((AuthStateBuilder b) {
+    b.user = state.user.rebuild((AppUserBuilder b) => b.following.remove(action.followingUid)).toBuilder();
+  });
 }
 
 AuthState _logoutSuccessful(AuthState state, LogoutSuccessful action) {

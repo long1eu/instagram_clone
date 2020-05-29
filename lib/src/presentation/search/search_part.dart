@@ -5,6 +5,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:instagram_clone/src/actions/auth/search_users.dart';
+import 'package:instagram_clone/src/actions/auth/start_following.dart';
+import 'package:instagram_clone/src/actions/auth/stop_following.dart';
+import 'package:instagram_clone/src/containers/user_container.dart';
 import 'package:instagram_clone/src/containers/users_search_result_container.dart';
 import 'package:instagram_clone/src/models/app_state.dart';
 import 'package:instagram_clone/src/models/auth/app_user.dart';
@@ -45,24 +48,38 @@ class _SearchPartState extends State<SearchPart> {
             ),
           ),
           Flexible(
-            child: UsersSearchResultContainer(
-              builder: (BuildContext context, List<AppUser> users) {
-                if (users.isEmpty) {
-                  return const Center(
-                    child: Text('Enter a value to search.'),
-                  );
-                }
+            child: UserContainer(
+              builder: (BuildContext context, AppUser currentUser) {
+                return UsersSearchResultContainer(
+                  builder: (BuildContext context, List<AppUser> users) {
+                    if (users.isEmpty) {
+                      return const Center(
+                        child: Text('Enter a value to search.'),
+                      );
+                    }
 
-                return ListView.builder(
-                  padding: EdgeInsets.zero,
-                  itemCount: users.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    final AppUser user = users[index];
+                    return ListView.builder(
+                      padding: EdgeInsets.zero,
+                      itemCount: users.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        final AppUser user = users[index];
+                        final bool isFollowing = currentUser.following.contains(user.uid);
 
-                    return ListTile(
-                      title: Text(user.displayName),
-                      subtitle: Text('@${user.username}\n${user.email}'),
-                      isThreeLine: true,
+                        return ListTile(
+                          title: Text(user.displayName),
+                          subtitle: Text(user.email),
+                          trailing: IconButton(
+                            icon: Icon(isFollowing ? Icons.close : Icons.person_add),
+                            onPressed: () {
+                              if (isFollowing) {
+                                StoreProvider.of<AppState>(context).dispatch(StopFollowingSuccessful(user.uid));
+                              } else {
+                                StoreProvider.of<AppState>(context).dispatch(StartFollowing(user.uid));
+                              }
+                            },
+                          ),
+                        );
+                      },
                     );
                   },
                 );
