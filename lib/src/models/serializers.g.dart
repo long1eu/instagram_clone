@@ -10,11 +10,14 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..add(AppState.serializer)
       ..add(AppUser.serializer)
       ..add(AuthState.serializer)
+      ..add(Chat.serializer)
+      ..add(ChatsState.serializer)
       ..add(Comment.serializer)
       ..add(CommentsState.serializer)
       ..add(Like.serializer)
       ..add(LikeType.serializer)
       ..add(LikesState.serializer)
+      ..add(Message.serializer)
       ..add(Post.serializer)
       ..add(PostsState.serializer)
       ..add(RegistrationInfo.serializer)
@@ -22,6 +25,9 @@ Serializers _$serializers = (new Serializers().toBuilder()
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(Comment)]),
           () => new ListBuilder<Comment>())
+      ..addBuilderFactory(
+          const FullType(BuiltList, const [const FullType(String)]),
+          () => new ListBuilder<String>())
       ..addBuilderFactory(
           const FullType(BuiltList, const [const FullType(String)]),
           () => new ListBuilder<String>())
@@ -50,6 +56,10 @@ Serializers _$serializers = (new Serializers().toBuilder()
             const FullType(BuiltList, const [const FullType(Like)])
           ]),
           () => new MapBuilder<String, BuiltList<Like>>())
+      ..addBuilderFactory(
+          const FullType(
+              BuiltMap, const [const FullType(String), const FullType(Chat)]),
+          () => new MapBuilder<String, Chat>())
       ..addBuilderFactory(
           const FullType(
               BuiltMap, const [const FullType(String), const FullType(Post)]),
