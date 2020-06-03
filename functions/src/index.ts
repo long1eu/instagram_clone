@@ -63,3 +63,20 @@ export const onCreateUser = functions
       await index.saveObject({ 'objectID': uid, ...data });
     }
   });
+
+// noinspection JSUnusedGlobalSymbols
+export const checkUsername = functions
+  .https
+  .onCall(async (data: any, context) => {
+    if (!data.username) {
+      throw new functions.https.HttpsError("invalid-argument", "You need to provide a username");
+    }
+
+    const username: string = data.username;
+    const snapshot = await admin.firestore()
+      .collection('users')
+      .where('username', '==', username)
+      .get();
+
+    return snapshot.docs.length === 0 ? username : null;
+  });

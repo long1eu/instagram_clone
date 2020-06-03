@@ -3,6 +3,7 @@
 // on 08/05/2020
 
 import 'package:instagram_clone/src/actions/actions.dart';
+import 'package:instagram_clone/src/actions/chats/listen_for_chats.dart';
 import 'package:instagram_clone/src/actions/initialize_app.dart';
 import 'package:instagram_clone/src/data/auth_api.dart';
 import 'package:instagram_clone/src/data/chats_api.dart';
@@ -60,7 +61,10 @@ class AppEpics {
         .flatMap((InitializeApp action) => _authApi
             .getUser()
             .asStream()
-            .map<AppAction>((AppUser user) => InitializeAppSuccessful(user))
+            .expand<AppAction>((AppUser user) => <AppAction>[
+                  InitializeAppSuccessful(user),
+                  if (user != null) ListenForChats(),
+                ])
             .onErrorReturnWith((dynamic error) => InitializeAppError(error)));
   }
 }
