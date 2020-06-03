@@ -5,6 +5,7 @@
 import 'package:instagram_clone/src/actions/actions.dart';
 import 'package:instagram_clone/src/models/app_state.dart';
 import 'package:instagram_clone/src/reducer/auth_reducer.dart';
+import 'package:instagram_clone/src/reducer/chats_reducer.dart';
 import 'package:instagram_clone/src/reducer/comments_reducer.dart';
 import 'package:instagram_clone/src/reducer/likes_reducer.dart';
 import 'package:instagram_clone/src/reducer/post_reducer.dart';
@@ -24,6 +25,7 @@ AppState reducer(AppState state, dynamic action) {
       ..auth = authReducer(state.auth, action).toBuilder()
       ..posts = postReducer(state.posts, action).toBuilder()
       ..comments = commentsReducer(state.comments, action).toBuilder()
-      ..likes = likesReducer(state.likes, action).toBuilder();
+      ..likes = likesReducer(state.likes, action).toBuilder()
+      ..chats = chatsReducer(state.chats, action).toBuilder();
   });
 }

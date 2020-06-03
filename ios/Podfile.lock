@@ -172,6 +172,12 @@ PODS:
     - Flutter
   - cloud_firestore_web (0.1.0):
     - Flutter
+  - cloud_functions (0.0.1):
+    - Firebase/Core
+    - Firebase/Functions (~> 6.0)
+    - Flutter
+  - cloud_functions_web (1.0.0):
+    - Flutter
   - Firebase/Auth (6.21.0):
     - Firebase/CoreOnly
     - FirebaseAuth (~> 6.5.1)
@@ -183,6 +189,9 @@ PODS:
   - Firebase/Firestore (6.21.0):
     - Firebase/CoreOnly
     - FirebaseFirestore (~> 1.11.2)
+  - Firebase/Functions (6.21.0):
+    - Firebase/CoreOnly
+    - FirebaseFunctions (~> 2.5.1)
   - Firebase/Messaging (6.21.0):
     - Firebase/CoreOnly
     - FirebaseMessaging (~> 4.3.0)
@@ -249,6 +258,10 @@ PODS:
     - "gRPC-C++ (= 0.0.9)"
     - leveldb-library (~> 1.22)
     - nanopb (~> 0.3.901)
+  - FirebaseFunctions (2.5.1):
+    - FirebaseAuthInterop (~> 1.0)
+    - FirebaseCore (~> 6.0)
+    - GTMSessionFetcher/Core (~> 1.1)
   - FirebaseInstallations (1.1.1):
     - FirebaseCore (~> 6.6)
     - GoogleUtilities/UserDefaults (~> 6.5)
@@ -325,6 +338,8 @@ PODS:
   - nanopb/encode (0.3.9011)
   - path_provider (0.0.1):
     - Flutter
+  - path_provider_linux (0.0.1):
+    - Flutter
   - path_provider_macos (0.0.1):
     - Flutter
   - PromisesObjC (1.2.8)
@@ -334,6 +349,8 @@ DEPENDENCIES:
   - camera (from `.symlinks/plugins/camera/ios`)
   - cloud_firestore (from `.symlinks/plugins/cloud_firestore/ios`)
   - cloud_firestore_web (from `.symlinks/plugins/cloud_firestore_web/ios`)
+  - cloud_functions (from `.symlinks/plugins/cloud_functions/ios`)
+  - cloud_functions_web (from `.symlinks/plugins/cloud_functions_web/ios`)
   - firebase_auth (from `.symlinks/plugins/firebase_auth/ios`)
   - firebase_auth_web (from `.symlinks/plugins/firebase_auth_web/ios`)
   - firebase_core (from `.symlinks/plugins/firebase_core/ios`)
@@ -342,6 +359,7 @@ DEPENDENCIES:
   - firebase_storage (from `.symlinks/plugins/firebase_storage/ios`)
   - Flutter (from `Flutter`)
   - path_provider (from `.symlinks/plugins/path_provider/ios`)
+  - path_provider_linux (from `.symlinks/plugins/path_provider_linux/ios`)
   - path_provider_macos (from `.symlinks/plugins/path_provider_macos/ios`)
 
 SPEC REPOS:
@@ -357,6 +375,7 @@ SPEC REPOS:
     - FirebaseCoreDiagnostics
     - FirebaseCoreDiagnosticsInterop
     - FirebaseFirestore
+    - FirebaseFunctions
     - FirebaseInstallations
     - FirebaseInstanceID
     - FirebaseMessaging
@@ -380,6 +399,10 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/cloud_firestore/ios"
   cloud_firestore_web:
     :path: ".symlinks/plugins/cloud_firestore_web/ios"
+  cloud_functions:
+    :path: ".symlinks/plugins/cloud_functions/ios"
+  cloud_functions_web:
+    :path: ".symlinks/plugins/cloud_functions_web/ios"
   firebase_auth:
     :path: ".symlinks/plugins/firebase_auth/ios"
   firebase_auth_web:
@@ -396,6 +419,8 @@ EXTERNAL SOURCES:
     :path: Flutter
   path_provider:
     :path: ".symlinks/plugins/path_provider/ios"
+  path_provider_linux:
+    :path: ".symlinks/plugins/path_provider_linux/ios"
   path_provider_macos:
     :path: ".symlinks/plugins/path_provider_macos/ios"
 
@@ -405,6 +430,8 @@ SPEC CHECKSUMS:
   camera: 38cc83ae9a5667bb5a71c7d9edaf60a91920fd4e
   cloud_firestore: 4cc700e236ebfe2d5d980e49cb066d202cfee0e9
   cloud_firestore_web: 9ec3dc7f5f98de5129339802d491c1204462bfec
+  cloud_functions: 20ba5a917ef4e8f5e60648c7398c272b38a66051
+  cloud_functions_web: ec883775f4a3b3fad943918d2cdad4fbf51cdbf0
   Firebase: f378c80340dd41c0ad0914af740c021eb282a04b
   firebase_auth: af8784c4d8d87c36f730a305f97bfbcb24db024b
   firebase_auth_web: 0955c07bcc06e84af76b9d4e32e6f31518f2d7de
@@ -420,6 +447,7 @@ SPEC CHECKSUMS:
   FirebaseCoreDiagnostics: e9b4cd8ba60dee0f2d13347332e4b7898cca5b61
   FirebaseCoreDiagnosticsInterop: 296e2c5f5314500a850ad0b83e9e7c10b011a850
   FirebaseFirestore: 71925e62a5d1cbfaff46aa4d5107e525cc48356a
+  FirebaseFunctions: 5af7c35d1c5e41608fecbb667eb6c4e672e318d0
   FirebaseInstallations: acb3216eb9784d3b1d2d2d635ff74fa892cc0c44
   FirebaseInstanceID: cef67c4967c7cecb56ea65d8acbb4834825c587b
   FirebaseMessaging: 828e66eb357a893e3cebd9ee0f6bc1941447cc94
@@ -435,6 +463,7 @@ SPEC CHECKSUMS:
   leveldb-library: 55d93ee664b4007aac644a782d11da33fba316f7
   nanopb: 18003b5e52dab79db540fe93fe9579f399bd1ccd
   path_provider: abfe2b5c733d04e238b0d8691db0cfd63a27a93c
+  path_provider_linux: 4d630dc393e1f20364f3e3b4a2ff41d9674a84e4
   path_provider_macos: f760a3c5b04357c380e2fddb6f9db6f3015897e0
   PromisesObjC: c119f3cd559f50b7ae681fa59dc1acd19173b7e6
   Protobuf: 176220c526ad8bd09ab1fb40a978eac3fef665f7

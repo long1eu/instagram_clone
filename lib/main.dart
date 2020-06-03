@@ -14,6 +14,8 @@ import 'package:instagram_clone/src/data/likes_api.dart';
 import 'package:instagram_clone/src/data/post_api.dart';
 import 'package:instagram_clone/src/epics/app_epics.dart';
 import 'package:instagram_clone/src/models/app_state.dart';
+import 'package:instagram_clone/src/presentation/chats/chats_page.dart';
+import 'package:instagram_clone/src/presentation/chats/messages_page.dart';
 import 'package:instagram_clone/src/presentation/comments/comments_page.dart';
 import 'package:instagram_clone/src/presentation/forgot_password.dart';
 import 'package:instagram_clone/src/presentation/home.dart';
@@ -94,6 +96,8 @@ class InstagramClone extends StatelessWidget {
           '/postDetails': (_) => const PostDetails(),
           '/commentsPage': (_) => const CommentsPage(),
           '/usersList': (_) => const UsersList(),
+          '/messages': (_) => const MessagesPage(),
+          '/chats': (_) => const ChatsPage(),
         },
       ),
     );

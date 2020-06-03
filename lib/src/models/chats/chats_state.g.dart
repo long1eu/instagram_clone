@@ -22,6 +22,10 @@ class _$ChatsStateSerializer implements StructuredSerializer<ChatsState> {
       serializers.serialize(object.chats,
           specifiedType: const FullType(
               BuiltMap, const [const FullType(String), const FullType(Chat)])),
+      'messages',
+      serializers.serialize(object.messages,
+          specifiedType: const FullType(BuiltMap,
+              const [const FullType(String), const FullType(Message)])),
     ];
     if (object.selectedChatId != null) {
       result
@@ -48,6 +52,11 @@ class _$ChatsStateSerializer implements StructuredSerializer<ChatsState> {
               specifiedType: const FullType(BuiltMap,
                   const [const FullType(String), const FullType(Chat)])));
           break;
+        case 'messages':
+          result.messages.replace(serializers.deserialize(value,
+              specifiedType: const FullType(BuiltMap,
+                  const [const FullType(String), const FullType(Message)])));
+          break;
         case 'selectedChatId':
           result.selectedChatId = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String;
@@ -63,14 +72,19 @@ class _$ChatsState extends ChatsState {
   @override
   final BuiltMap<String, Chat> chats;
   @override
+  final BuiltMap<String, Message> messages;
+  @override
   final String selectedChatId;
 
   factory _$ChatsState([void Function(ChatsStateBuilder) updates]) =>
       (new ChatsStateBuilder()..update(updates)).build();
 
-  _$ChatsState._({this.chats, this.selectedChatId}) : super._() {
+  _$ChatsState._({this.chats, this.messages, this.selectedChatId}) : super._() {
     if (chats == null) {
       throw new BuiltValueNullFieldError('ChatsState', 'chats');
+    }
+    if (messages == null) {
+      throw new BuiltValueNullFieldError('ChatsState', 'messages');
     }
   }
 
@@ -86,18 +100,21 @@ class _$ChatsState extends ChatsState {
     if (identical(other, this)) return true;
     return other is ChatsState &&
         chats == other.chats &&
+        messages == other.messages &&
         selectedChatId == other.selectedChatId;
   }
 
   @override
   int get hashCode {
-    return $jf($jc($jc(0, chats.hashCode), selectedChatId.hashCode));
+    return $jf($jc($jc($jc(0, chats.hashCode), messages.hashCode),
+        selectedChatId.hashCode));
   }
 
   @override
   String toString() {
     return (newBuiltValueToStringHelper('ChatsState')
           ..add('chats', chats)
+          ..add('messages', messages)
           ..add('selectedChatId', selectedChatId))
         .toString();
   }
@@ -111,6 +128,12 @@ class ChatsStateBuilder implements Builder<ChatsState, ChatsStateBuilder> {
       _$this._chats ??= new MapBuilder<String, Chat>();
   set chats(MapBuilder<String, Chat> chats) => _$this._chats = chats;
 
+  MapBuilder<String, Message> _messages;
+  MapBuilder<String, Message> get messages =>
+      _$this._messages ??= new MapBuilder<String, Message>();
+  set messages(MapBuilder<String, Message> messages) =>
+      _$this._messages = messages;
+
   String _selectedChatId;
   String get selectedChatId => _$this._selectedChatId;
   set selectedChatId(String selectedChatId) =>
@@ -121,6 +144,7 @@ class ChatsStateBuilder implements Builder<ChatsState, ChatsStateBuilder> {
   ChatsStateBuilder get _$this {
     if (_$v != null) {
       _chats = _$v.chats?.toBuilder();
+      _messages = _$v.messages?.toBuilder();
       _selectedChatId = _$v.selectedChatId;
       _$v = null;
     }
@@ -146,12 +170,16 @@ class ChatsStateBuilder implements Builder<ChatsState, ChatsStateBuilder> {
     try {
       _$result = _$v ??
           new _$ChatsState._(
-              chats: chats.build(), selectedChatId: selectedChatId);
+              chats: chats.build(),
+              messages: messages.build(),
+              selectedChatId: selectedChatId);
     } catch (_) {
       String _$failedField;
       try {
         _$failedField = 'chats';
         chats.build();
+        _$failedField = 'messages';
+        messages.build();
       } catch (e) {
         throw new BuiltValueNestedFieldError(
             'ChatsState', _$failedField, e.toString());

@@ -7,6 +7,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:instagram_clone/src/actions/auth/search_users.dart';
 import 'package:instagram_clone/src/actions/auth/start_following.dart';
 import 'package:instagram_clone/src/actions/auth/stop_following.dart';
+import 'package:instagram_clone/src/actions/chats/create_chat.dart';
 import 'package:instagram_clone/src/containers/user_container.dart';
 import 'package:instagram_clone/src/containers/users_search_result_container.dart';
 import 'package:instagram_clone/src/models/app_state.dart';
@@ -68,15 +69,27 @@ class _SearchPartState extends State<SearchPart> {
                         return ListTile(
                           title: Text(user.displayName),
                           subtitle: Text(user.email),
-                          trailing: IconButton(
-                            icon: Icon(isFollowing ? Icons.close : Icons.person_add),
-                            onPressed: () {
-                              if (isFollowing) {
-                                StoreProvider.of<AppState>(context).dispatch(StopFollowingSuccessful(user.uid));
-                              } else {
-                                StoreProvider.of<AppState>(context).dispatch(StartFollowing(user.uid));
-                              }
-                            },
+                          trailing: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: <Widget>[
+                              IconButton(
+                                icon: const Icon(Icons.message),
+                                onPressed: () {
+                                  StoreProvider.of<AppState>(context).dispatch(CreateChat(user.uid));
+                                  Navigator.pushNamed(context, '/messages');
+                                },
+                              ),
+                              IconButton(
+                                icon: Icon(isFollowing ? Icons.close : Icons.person_add),
+                                onPressed: () {
+                                  if (isFollowing) {
+                                    StoreProvider.of<AppState>(context).dispatch(StopFollowingSuccessful(user.uid));
+                                  } else {
+                                    StoreProvider.of<AppState>(context).dispatch(StartFollowing(user.uid));
+                                  }
+                                },
+                              ),
+                            ],
                           ),
                         );
                       },

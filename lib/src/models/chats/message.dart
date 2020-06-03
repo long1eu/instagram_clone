@@ -12,7 +12,7 @@ import 'package:meta/meta.dart';
 part 'message.g.dart';
 
 // messages/{message_id}
-abstract class Message implements Built<Message, MessageBuilder> {
+abstract class Message implements Built<Message, MessageBuilder>, Comparable<Message> {
   factory Message({
     @required String id,
     @required String chatId,
@@ -43,6 +43,11 @@ abstract class Message implements Built<Message, MessageBuilder> {
   String get message;
 
   DateTime get createdAt;
+
+  @override
+  int compareTo(Message other) {
+    return other.createdAt.compareTo(createdAt);
+  }
 
   Map<String, dynamic> get json => serializers.serializeWith(serializer, this) as Map<String, dynamic>;
 

@@ -14,6 +14,7 @@ import 'package:instagram_clone/src/actions/auth/send_sms.dart';
 import 'package:instagram_clone/src/actions/auth/signup.dart';
 import 'package:instagram_clone/src/actions/auth/start_following.dart';
 import 'package:instagram_clone/src/actions/auth/stop_following.dart';
+import 'package:instagram_clone/src/actions/chats/listen_for_chats.dart';
 import 'package:instagram_clone/src/data/auth_api.dart';
 import 'package:instagram_clone/src/models/app_state.dart';
 import 'package:instagram_clone/src/models/auth/app_user.dart';
@@ -49,6 +50,7 @@ class AuthEpics {
             .asStream()
             .expand<AppAction>((AppUser user) => <AppAction>[
                   LoginSuccessful(user),
+                  ListenForChats(),
                   ...user.following //
                       .where((String uid) => store.state.auth.contacts[uid] == null)
                       .map((String uid) => GetContact(uid))
@@ -62,7 +64,10 @@ class AuthEpics {
         .flatMap((Logout action) => _authApi
             .logOut()
             .asStream()
-            .mapTo<AppAction>(LogoutSuccessful())
+            .expand<AppAction>((_) => <AppAction>[
+                  LogoutSuccessful(),
+                  StopListenForChats(),
+                ])
             .onErrorReturnWith((dynamic error) => LogoutError(error)));
   }
 
@@ -81,7 +86,10 @@ class AuthEpics {
         .flatMap((SignUp action) => _authApi
             .signUp(store.state.auth.info)
             .asStream()
-            .map<AppAction>((AppUser user) => SignUpSuccessful(user))
+            .expand<AppAction>((AppUser user) => <AppAction>[
+                  SignUpSuccessful(user),
+                  ListenForChats(),
+                ])
             .onErrorReturnWith((dynamic error) => SignUpError(error))
             .doOnData(action.result));
   }

@@ -50,7 +50,7 @@ class ChatsApi {
     return _firestore //
         .collection('messages')
         .where('chatId', isEqualTo: chatId)
-        .snapshots()
+        .snapshots(includeMetadataChanges: true)
         .map((QuerySnapshot snapshot) => snapshot.documents //
             .map((DocumentSnapshot document) => Message.fromJson(document.data))
             .toList());

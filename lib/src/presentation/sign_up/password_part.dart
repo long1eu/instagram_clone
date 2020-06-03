@@ -69,8 +69,7 @@ class _PasswordPartState extends State<PasswordPart> {
                     StoreProvider.of<AppState>(context).dispatch(UpdateRegistrationInfo(newInfo));
                   },
                   validator: (String value) {
-                    print(estimatePasswordStrength(value));
-                    if (estimatePasswordStrength(value) < 0.1) {
+                    if (value.isEmpty) {
                       return 'Can you please try something more secure.';
                     }
 

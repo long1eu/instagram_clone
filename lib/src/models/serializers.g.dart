@@ -61,6 +61,10 @@ Serializers _$serializers = (new Serializers().toBuilder()
               BuiltMap, const [const FullType(String), const FullType(Chat)]),
           () => new MapBuilder<String, Chat>())
       ..addBuilderFactory(
+          const FullType(BuiltMap,
+              const [const FullType(String), const FullType(Message)]),
+          () => new MapBuilder<String, Message>())
+      ..addBuilderFactory(
           const FullType(
               BuiltMap, const [const FullType(String), const FullType(Post)]),
           () => new MapBuilder<String, Post>()))
