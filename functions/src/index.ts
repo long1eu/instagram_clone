@@ -80,3 +80,15 @@ export const checkUsername = functions
 
     return snapshot.docs.length === 0 ? username : null;
   });
+
+// noinspection JSUnusedGlobalSymbols
+export const setLastMessage = functions
+  .firestore
+  .document('messages/{message_id}')
+  .onCreate(async (snapshot) => {
+    const chatId: string = snapshot.data()!.chatId;
+
+    await admin.firestore()
+      .doc(`chats/${chatId}`)
+      .update({ 'lastMessage': snapshot.data() });
+  });
