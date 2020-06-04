@@ -65,55 +65,83 @@ class _MessagesPageState extends State<MessagesPage> {
                   appBar: AppBar(
                     title: Text('@${user.username}'),
                   ),
-                  body: Column(
-                    children: <Widget>[
-                      Flexible(
-                        child: MessagesContainer(
-                          builder: (BuildContext context, List<Message> messages) {
-                            if (messages.isEmpty) {
-                              return const Center(
-                                child: Text('Start chatting'),
+                  body: DefaultTextStyle(
+                    style: Theme.of(context).textTheme.bodyText2.copyWith(
+                          fontSize: 16.0,
+                        ),
+                    child: Column(
+                      children: <Widget>[
+                        Flexible(
+                          child: MessagesContainer(
+                            builder: (BuildContext context, List<Message> messages) {
+                              if (messages.isEmpty) {
+                                return const Center(
+                                  child: Text('Start chatting'),
+                                );
+                              }
+
+                              return ListView.builder(
+                                itemCount: messages.length,
+                                padding: const EdgeInsetsDirectional.only(
+                                  bottom: 16.0,
+                                  start: 16.0,
+                                  end: 16.0,
+                                ),
+                                reverse: true,
+                                itemBuilder: (BuildContext context, int index) {
+                                  final Message message = messages[index];
+                                  final bool isMe = message.uid == currentUser.uid;
+
+                                  return Container(
+                                    alignment: isMe ? AlignmentDirectional.centerEnd : AlignmentDirectional.centerStart,
+                                    child: Container(
+                                      margin: const EdgeInsets.symmetric(vertical: 1.0),
+                                      padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 8.0),
+                                      decoration: BoxDecoration(
+                                        color: isMe ? Theme.of(context).primaryColor : Theme.of(context).accentColor,
+                                        borderRadius: BorderRadius.circular(8.0),
+                                      ),
+                                      child: Text(
+                                        message.message,
+                                        style: TextStyle(
+                                          color: isMe ? Colors.white : Colors.black,
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                                },
                               );
-                            }
-
-                            return ListView.builder(
-                              itemCount: messages.length,
-                              itemBuilder: (BuildContext context, int index) {
-                                final Message message = messages[index];
-
-                                return Text(message.message);
-                              },
-                            );
-                          },
+                            },
+                          ),
                         ),
-                      ),
-                      const Divider(height: 0.0),
-                      SafeArea(
-                        top: false,
-                        right: false,
-                        left: false,
-                        child: Row(
-                          children: <Widget>[
-                            const SizedBox(width: 16.0),
-                            Flexible(
-                              child: TextField(
-                                controller: _controller,
+                        const Divider(height: 0.0),
+                        SafeArea(
+                          top: false,
+                          right: false,
+                          left: false,
+                          child: Row(
+                            children: <Widget>[
+                              const SizedBox(width: 16.0),
+                              Flexible(
+                                child: TextField(
+                                  controller: _controller,
+                                ),
                               ),
-                            ),
-                            const SizedBox(width: 8.0),
-                            IconButton(
-                              icon: const Icon(Icons.send),
-                              onPressed: () {
-                                if (_controller.text.trim().isNotEmpty) {
-                                  StoreProvider.of<AppState>(context).dispatch(CreateMessage(_controller.text));
-                                  _controller.clear();
-                                }
-                              },
-                            ),
-                          ],
+                              const SizedBox(width: 8.0),
+                              IconButton(
+                                icon: const Icon(Icons.send),
+                                onPressed: () {
+                                  if (_controller.text.trim().isNotEmpty) {
+                                    StoreProvider.of<AppState>(context).dispatch(CreateMessage(_controller.text));
+                                    _controller.clear();
+                                  }
+                                },
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 );
               },
