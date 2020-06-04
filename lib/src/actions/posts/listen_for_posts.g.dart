@@ -7,10 +7,17 @@ part of listen_for_posts;
 // **************************************************************************
 
 class _$ListenForPosts extends ListenForPosts {
+  @override
+  final String uid;
+
   factory _$ListenForPosts([void Function(ListenForPostsBuilder) updates]) =>
       (new ListenForPostsBuilder()..update(updates)).build();
 
-  _$ListenForPosts._() : super._();
+  _$ListenForPosts._({this.uid}) : super._() {
+    if (uid == null) {
+      throw new BuiltValueNullFieldError('ListenForPosts', 'uid');
+    }
+  }
 
   @override
   ListenForPosts rebuild(void Function(ListenForPostsBuilder) updates) =>
@@ -23,17 +30,18 @@ class _$ListenForPosts extends ListenForPosts {
   @override
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
-    return other is ListenForPosts;
+    return other is ListenForPosts && uid == other.uid;
   }
 
   @override
   int get hashCode {
-    return 165401351;
+    return $jf($jc(0, uid.hashCode));
   }
 
   @override
   String toString() {
-    return newBuiltValueToStringHelper('ListenForPosts').toString();
+    return (newBuiltValueToStringHelper('ListenForPosts')..add('uid', uid))
+        .toString();
   }
 }
 
@@ -41,7 +49,19 @@ class ListenForPostsBuilder
     implements Builder<ListenForPosts, ListenForPostsBuilder> {
   _$ListenForPosts _$v;
 
+  String _uid;
+  String get uid => _$this._uid;
+  set uid(String uid) => _$this._uid = uid;
+
   ListenForPostsBuilder();
+
+  ListenForPostsBuilder get _$this {
+    if (_$v != null) {
+      _uid = _$v.uid;
+      _$v = null;
+    }
+    return this;
+  }
 
   @override
   void replace(ListenForPosts other) {
@@ -58,18 +78,25 @@ class ListenForPostsBuilder
 
   @override
   _$ListenForPosts build() {
-    final _$result = _$v ?? new _$ListenForPosts._();
+    final _$result = _$v ?? new _$ListenForPosts._(uid: uid);
     replace(_$result);
     return _$result;
   }
 }
 
 class _$StopListeningForPosts extends StopListeningForPosts {
+  @override
+  final String uid;
+
   factory _$StopListeningForPosts(
           [void Function(StopListeningForPostsBuilder) updates]) =>
       (new StopListeningForPostsBuilder()..update(updates)).build();
 
-  _$StopListeningForPosts._() : super._();
+  _$StopListeningForPosts._({this.uid}) : super._() {
+    if (uid == null) {
+      throw new BuiltValueNullFieldError('StopListeningForPosts', 'uid');
+    }
+  }
 
   @override
   StopListeningForPosts rebuild(
@@ -83,17 +110,19 @@ class _$StopListeningForPosts extends StopListeningForPosts {
   @override
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
-    return other is StopListeningForPosts;
+    return other is StopListeningForPosts && uid == other.uid;
   }
 
   @override
   int get hashCode {
-    return 1016933419;
+    return $jf($jc(0, uid.hashCode));
   }
 
   @override
   String toString() {
-    return newBuiltValueToStringHelper('StopListeningForPosts').toString();
+    return (newBuiltValueToStringHelper('StopListeningForPosts')
+          ..add('uid', uid))
+        .toString();
   }
 }
 
@@ -101,7 +130,19 @@ class StopListeningForPostsBuilder
     implements Builder<StopListeningForPosts, StopListeningForPostsBuilder> {
   _$StopListeningForPosts _$v;
 
+  String _uid;
+  String get uid => _$this._uid;
+  set uid(String uid) => _$this._uid = uid;
+
   StopListeningForPostsBuilder();
+
+  StopListeningForPostsBuilder get _$this {
+    if (_$v != null) {
+      _uid = _$v.uid;
+      _$v = null;
+    }
+    return this;
+  }
 
   @override
   void replace(StopListeningForPosts other) {
@@ -118,7 +159,7 @@ class StopListeningForPostsBuilder
 
   @override
   _$StopListeningForPosts build() {
-    final _$result = _$v ?? new _$StopListeningForPosts._();
+    final _$result = _$v ?? new _$StopListeningForPosts._(uid: uid);
     replace(_$result);
     return _$result;
   }

@@ -47,7 +47,7 @@ class PostEpics {
     return actions //
         .whereType<ListenForPosts>()
         .flatMap((ListenForPosts action) => _postApi
-            .listen(store.state.auth.user.uid)
+            .listen(action.uid)
             .expand<AppAction>((List<Post> posts) => <AppAction>[
                   OnPostsEvent(posts),
                   ...posts //
@@ -59,7 +59,9 @@ class PostEpics {
                       .map((Post post) => GetLikes(post.id))
                       .toSet(),
                 ])
-            .takeUntil(actions.whereType<StopListeningForPosts>())
+            .takeUntil(actions
+                .whereType<StopListeningForPosts>()
+                .where((StopListeningForPosts stopAction) => stopAction.uid == action.uid))
             .onErrorReturnWith((dynamic error) => ListenForPostsError(error)));
   }
 }

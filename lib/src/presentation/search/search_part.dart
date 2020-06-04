@@ -83,7 +83,7 @@ class _SearchPartState extends State<SearchPart> {
                                 icon: Icon(isFollowing ? Icons.close : Icons.person_add),
                                 onPressed: () {
                                   if (isFollowing) {
-                                    StoreProvider.of<AppState>(context).dispatch(StopFollowingSuccessful(user.uid));
+                                    StoreProvider.of<AppState>(context).dispatch(StopFollowing(user.uid));
                                   } else {
                                     StoreProvider.of<AppState>(context).dispatch(StartFollowing(user.uid));
                                   }

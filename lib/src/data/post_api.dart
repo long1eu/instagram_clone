@@ -24,6 +24,7 @@ class PostApi {
   Stream<List<Post>> listen(String uid) {
     return _firestore //
         .collection('posts')
+        .where('uid', isEqualTo: uid)
         .snapshots()
         .map((QuerySnapshot snapshot) => snapshot.documents //
             .map((DocumentSnapshot document) => Post.fromJson(document.data))

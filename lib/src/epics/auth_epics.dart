@@ -15,6 +15,7 @@ import 'package:instagram_clone/src/actions/auth/signup.dart';
 import 'package:instagram_clone/src/actions/auth/start_following.dart';
 import 'package:instagram_clone/src/actions/auth/stop_following.dart';
 import 'package:instagram_clone/src/actions/chats/listen_for_chats.dart';
+import 'package:instagram_clone/src/actions/posts/listen_for_posts.dart';
 import 'package:instagram_clone/src/data/auth_api.dart';
 import 'package:instagram_clone/src/models/app_state.dart';
 import 'package:instagram_clone/src/models/auth/app_user.dart';
