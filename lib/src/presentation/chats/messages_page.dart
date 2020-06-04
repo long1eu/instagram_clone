@@ -56,8 +56,10 @@ class _MessagesPageState extends State<MessagesPage> {
                 }
 
                 final String otherUid = chat.users.firstWhere((String uid) => uid != currentUser.uid);
-
                 final AppUser user = contacts[otherUid];
+                if (user == null) {
+                  return const Center(child: CircularProgressIndicator());
+                }
 
                 return Scaffold(
                   appBar: AppBar(
