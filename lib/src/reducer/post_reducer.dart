@@ -31,6 +31,7 @@ PostsState _updatePostInfo(PostsState state, UpdatePostInfo action) {
 
 PostsState _onPostsEvent(PostsState state, OnPostsEvent action) {
   return state.rebuild((PostsStateBuilder b) {
+    // this cloud not clear the posts map
     for (Post post in action.posts) {
       b.posts[post.id] = post;
     }
