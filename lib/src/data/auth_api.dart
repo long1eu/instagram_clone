@@ -10,6 +10,7 @@ import 'package:built_collection/built_collection.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cloud_functions/cloud_functions.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:instagram_clone/src/models/auth/app_user.dart';
 import 'package:instagram_clone/src/models/auth/registration_info.dart';
 import 'package:meta/meta.dart';
@@ -17,19 +18,23 @@ import 'package:meta/meta.dart';
 class AuthApi {
   const AuthApi({
     @required FirebaseAuth auth,
+    @required FirebaseMessaging messaging,
     @required Firestore firestore,
     @required CloudFunctions cloudFunctions,
     @required AlgoliaIndexReference index,
   })  : assert(auth != null),
+        assert(messaging != null),
         assert(firestore != null),
         assert(cloudFunctions != null),
         assert(index != null),
         _auth = auth,
+        _messaging = messaging,
         _firestore = firestore,
         _cloudFunctions = cloudFunctions,
         _index = index;
 
   final FirebaseAuth _auth;
+  final FirebaseMessaging _messaging;
   final Firestore _firestore;
   final CloudFunctions _cloudFunctions;
   final AlgoliaIndexReference _index;
@@ -43,11 +48,13 @@ class AuthApi {
   /// Tries to log the user in using his email and password
   Future<AppUser> login(String email, String password) async {
     final AuthResult result = await _auth.signInWithEmailAndPassword(email: email, password: password);
+    await _messaging.subscribeToTopic(result.user.uid);
     return _buildUser(result.user);
   }
 
   /// Logs the user out
-  Future<void> logOut() async {
+  Future<void> logOut(String uid) async {
+    await _messaging.unsubscribeFromTopic(uid);
     await _auth.signOut();
   }
 
@@ -71,6 +78,7 @@ class AuthApi {
       result = await _auth.signInWithCredential(credential);
     }
 
+    await _messaging.subscribeToTopic(result.user.uid);
     return _buildUser(result.user, info);
   }
 

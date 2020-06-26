@@ -30,6 +30,8 @@ dependencies:
   redux_epics: ^0.14.0
   rxdart: ^0.24.1
   algolia: ^0.1.7
+  rsa_encrypt:
+    git: https://github.com/long1eu/rsa_encrypt
 
 dev_dependencies:
   flutter_test:

@@ -87,8 +87,28 @@ export const setLastMessage = functions
   .document('messages/{message_id}')
   .onCreate(async (snapshot) => {
     const chatId: string = snapshot.data()!.chatId;
+    const uid: string = snapshot.data()!.uid;
 
     await admin.firestore()
       .doc(`chats/${chatId}`)
       .update({ 'lastMessage': snapshot.data() });
+
+    const chatSnapshot = await admin.firestore()
+      .doc(`chats/${chatId}`)
+      .get();
+
+    const users: string[] = chatSnapshot.data()!.users;
+    const otherUserUid = users.find(value => value !== uid) as string;
+
+    await admin.messaging()
+      .sendToTopic(otherUserUid, {
+        notification: {
+          title: "New message",
+          body: "Tap to open the message."
+        },
+        data: {
+          'chatId': chatId,
+          'click_action': 'FLUTTER_NOTIFICATION_CLICK'
+        }
+      });
   });
